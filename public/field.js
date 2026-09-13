@@ -65,10 +65,28 @@ function mulberry32(seed) {
   };
 }
 
+// Expand the 32-bit seed into n deterministic bytes (xorshift32). Used to drive
+// the bishop: 2 bits per diagonal step from these bytes, like an OpenSSH key
+// fingerprint. Same seed ==> same bytes ==> same path. No wall-clock.
+function seedBytes(seed, n) {
+  const out = new Uint8Array(n);
+  let s = seed & 0xffffffff;
+  for (let i = 0; i < n; i++) {
+    s ^= (s << 13) & 0xffffffff;
+    s &= 0xffffffff;
+    s ^= s >> 17;
+    s ^= (s << 5) & 0xffffffff;
+    s &= 0xffffffff;
+    out[i] = s & 0xff;
+  }
+  return out;
+}
+
 // Field geometry: 32x48 drunk-walk cells, chords jump by 5 nodes.
+// STEPS = bishop walk length: 256 seed bits / 2 bits per step (OpenSSH randomart).
 const COLS = 32;
 const ROWS = 48;
-const STEPS = 2400;
+const STEPS = 128;
 const CHORD_STEP = 5;
 
 // Files whose bytes feed the seed (each hashed as text; failures are skipped).
@@ -122,8 +140,6 @@ function renderPlate() {
   ctx.fillStyle = "#050505";
   ctx.fillRect(0, 0, W, H);
 
-  const rand = mulberry32(seed);
-
   // (a) faint square grid, full-field
   ctx.strokeStyle = "rgba(80,80,80,0.10)";
   ctx.lineWidth = 1;
@@ -139,14 +155,14 @@ function renderPlate() {
   }
   ctx.stroke();
 
-  // (b) drunken-bishop walk, rendered as an OpenSSH randomart fingerprint in the
-  // lower 55%. A 32x48 cell grid fills that band; each cell shows one monochrome
-  // glyph whose mark rises with visit count ( . o + = # ). No polyline scribble.
+  // (b) drunken-bishop walk driven by 32 bytes of the seed (OpenSSH randomart).
+  // 32 bytes -> 256 bits -> STEPS=128 diagonal moves, 2 bits each, with edge
+  // reflection. A short path, so the fingerprint reads as a cloud across the
+  // middle of the band, never a right-edge stack. One rectangle per visited
+  // cell; size and alpha rise with visit count. No fillText, no second copy.
   const bandTop = H * 0.45;
   const cellW = W / COLS;
   const cellH = (H * 0.55) / ROWS;
-  const glyphFor = (n) =>
-    n >= 80 ? "#" : n >= 32 ? "=" : n >= 12 ? "+" : n >= 4 ? "o" : n >= 1 ? "." : null;
   const cells = [];
   for (let r = 0; r < ROWS; r++) cells.push(new Array(COLS).fill(0));
   {
@@ -155,26 +171,37 @@ function renderPlate() {
     let bx = Math.floor(COLS / 2);
     let by = Math.floor(ROWS / 2);
     cells[by][bx] = 1;
+    const bishopBytes = seedBytes(seed, STEPS / 4); // 32 bytes for 128 steps
     for (let s = 0; s < STEPS; s++) {
-      const d = Math.floor(rand() * 4);
+      const d = (bishopBytes[s >> 2] >> ((s & 3) * 2)) & 3;
       bx += dxs[d];
       by += dys[d];
-      if (bx < 0) bx = 0;
-      else if (bx >= COLS) bx = COLS - 1;
-      if (by < 0) by = 0;
-      else if (by >= ROWS) by = ROWS - 1;
+      // Reflect at edges (OpenSSH drunken bishop): never clamp-and-stick.
+      if (bx < 0) bx = -bx;
+      else if (bx >= COLS) bx = 2 * (COLS - 1) - bx;
+      if (by < 0) by = -by;
+      else if (by >= ROWS) by = 2 * (ROWS - 1) - by;
       cells[by][bx]++;
     }
-    ctx.fillStyle = "#9a9a9a"; // single monochrome ink for the whole fingerprint
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    const glyphPx = Math.max(6, Math.min(cellW, cellH) * 1.1);
-    ctx.font = glyphPx + 'px ui-monospace, "SF Mono", Menlo, Consolas, monospace';
+    let maxVis = 0;
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) if (cells[r][c] > maxVis) maxVis = cells[r][c];
+    }
+    const cellMin = Math.min(cellW, cellH);
     for (let r = 0; r < ROWS; r++) {
       for (let c = 0; c < COLS; c++) {
-        const g = glyphFor(cells[r][c]);
-        if (!g) continue;
-        ctx.fillText(g, (c + 0.5) * cellW, bandTop + (r + 0.5) * cellH);
+        const n = cells[r][c];
+        if (!n) continue;
+        const t = n / maxVis; // 0..1 by visit count
+        const size = Math.max(3, cellMin * (0.3 + 0.5 * t)); // 30% -> 80%, min 3 CSS px
+        const alpha = 0.35 + 0.55 * t; // 0.35 -> 0.9
+        ctx.fillStyle = "rgba(200,200,200," + alpha.toFixed(3) + ")";
+        ctx.fillRect(
+          (c + 0.5) * cellW - size / 2,
+          bandTop + (r + 0.5) * cellH - size / 2,
+          size,
+          size
+        );
       }
     }
   }
