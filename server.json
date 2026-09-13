@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.neetstuff/limited-hype-station",
+  "description": "Limited Hype Station — charter, secret-free handoff tickets, and short-lived want-ads. Not a wallet or memory host.",
+  "repository": {
+    "url": "https://github.com/NEETstuff/Limited-Hype-Station",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "websiteUrl": "https://github.com/NEETstuff/Limited-Hype-Station",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "limited-hype-station-mcp",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+# Placeholder. Do not deploy until the MCP process has a durable store design.
+# app = "limited-hype-station"
+# primary_region = "dfw"
+#
+# [http_service]
+#   internal_port = 8080
+#   force_https = true
+#   auto_stop_machines = "suspend"
+#   auto_start_machines = true
+#   min_machines_running = 0

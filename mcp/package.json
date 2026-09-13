@@ -1,0 +1,17 @@
+{
+  "name": "limited-hype-station-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Limited Hype Station MCP stub",
+  "mcpName": "io.github.neetstuff/limited-hype-station",
+  "bin": {
+    "limited-hype-station-mcp": "./src/index.mjs"
+  },
+  "scripts": {
+    "start": "node src/index.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
