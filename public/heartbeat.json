@@ -1,0 +1,12 @@
+{
+  "name": "limited-hype-station",
+  "version": "0.1.0",
+  "status": "spec-only",
+  "updated_at": "2026-09-13T00:00:00Z",
+  "live_mcp": null,
+  "live_ticket_store": false,
+  "xrpl_notary": false,
+  "operator": "NEETstuff",
+  "repo": "https://github.com/NEETstuff/Limited-Hype-Station",
+  "notes": "Static files and local MCP stub only. Do not POST tickets expecting durability."
+}

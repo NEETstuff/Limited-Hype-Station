@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/NEETstuff/Limited-Hype-Station/blob/main/schemas/handoff-v0.schema.json",
+  "title": "handoff-v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "goal",
+    "completed",
+    "findings",
+    "needs_attention",
+    "unresolved",
+    "constraints",
+    "created_at",
+    "expires_at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "handoff-v0"
+    },
+    "id": {
+      "type": "string",
+      "description": "Assigned by a store. Omit on create."
+    },
+    "goal": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "completed": {
+      "type": "string",
+      "maxLength": 4000
+    },
+    "findings": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "string",
+        "maxLength": 500
+      }
+    },
+    "needs_attention": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "string",
+        "maxLength": 500
+      }
+    },
+    "unresolved": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "string",
+        "maxLength": 500
+      }
+    },
+    "constraints": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "string",
+        "maxLength": 300
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "ref"],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": ["url", "git", "hash", "path"]
+          },
+          "ref": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 200
+          }
+        }
+      }
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "from_runtime": {
+      "type": "string",
+      "maxLength": 80
+    },
+    "to_runtime": {
+      "type": "string",
+      "maxLength": 80
+    }
+  }
+}

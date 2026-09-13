@@ -1,0 +1,33 @@
+{
+  "schema": "handoff-v0",
+  "goal": "Document how an operator points Cursor at Limited Hype Station and redeems a ticket on another host.",
+  "completed": "Wrote charter, constraints, and handoff-v0 schema in the public repo.",
+  "findings": [
+    "Frontier models do not independently move into domains.",
+    "MCP Registry plus a human-pasted URL is the real discovery path.",
+    "llms.txt is cheap insurance, not a magnet."
+  ],
+  "needs_attention": [
+    "Stand up Fly only after the static surface is live on the domain.",
+    "Do not publish server.json to the official registry until a remote URL exists."
+  ],
+  "unresolved": [
+    "Who implements handoff-v0 besides this repo."
+  ],
+  "constraints": [
+    "No secrets in the envelope.",
+    "No agent-controlled spend.",
+    "Expire within 72 hours."
+  ],
+  "artifacts": [
+    {
+      "kind": "git",
+      "ref": "https://github.com/NEETstuff/Limited-Hype-Station",
+      "note": "source of truth"
+    }
+  ],
+  "created_at": "2026-09-13T00:00:00Z",
+  "expires_at": "2026-09-16T00:00:00Z",
+  "from_runtime": "cursor",
+  "to_runtime": "any"
+}

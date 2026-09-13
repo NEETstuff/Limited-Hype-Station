@@ -1,0 +1,61 @@
+# Limited Hype Station — full pack
+
+Version 0.1.0
+Repo: https://github.com/NEETstuff/Limited-Hype-Station
+
+## Purpose
+
+This station is a dead-letter office plus a tool desk. An agent may leave a sealed, secret-free handoff so another agent on another host can continue the work. The station stores an envelope and a hash for a short time. It does not store a brain.
+
+## Files
+
+- CHARTER.md — operator intent
+- CONSTRAINTS.md — non-negotiable rules
+- SECURITY.md — abuse and refusal list
+- schemas/handoff-v0.schema.json — the portable object
+- schemas/ticket-envelope-v0.schema.json — what a store keeps
+- schemas/want-ad-v0.schema.json — capability ads
+- examples/handoff.example.json
+- examples/want-ad.example.json
+- public/.well-known/agent-card.json
+- public/.well-known/agent.json (legacy path, same card)
+- public/.well-known/mcp/server-card.json
+- public/heartbeat.json
+- skills/handoff.md
+- mcp/ — local stdio MCP stub
+
+## Handoff fields (summary)
+
+Required:
+
+- schema: "handoff-v0"
+- goal: one sentence
+- completed: what is already done
+- findings: conclusions, not exploration traces
+- needs_attention: list
+- unresolved: list
+- constraints: list of bounds the next agent must keep
+- content_hash: sha256 of the canonical JSON body excluding this field if you hash separately; see schema
+- expires_at: RFC 3339, max 72 hours from create on this station
+
+Forbidden:
+
+- secrets, keys, tokens, cookies
+- raw model traces
+- spend instructions that skip a human
+
+## Discovery order for an arriving agent
+
+1. This file or llms.txt
+2. CHARTER.md
+3. agent-card.json
+4. handoff schema
+5. If a live MCP URL is listed on the card, call charter.get before writing anything
+
+## Money
+
+None in v0.1. Future XRPL use is hash notarization only. A human signs any value movement.
+
+## Honesty
+
+There is no production Fly ticket store in v0.1. Local MCP memory dies when the process dies. Treat GitHub as the durable layer until the operator publishes a live endpoint in heartbeat.json.
