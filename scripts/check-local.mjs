@@ -2,6 +2,7 @@
 const base = process.env.STATION_URL || "http://localhost:4173";
 const paths = [
   "/",
+  "/desk.html",
   "/handoff.html",
   "/want-ad.html",
   "/llms.txt",

@@ -1,0 +1,46 @@
+html,
+body {
+  margin: 0;
+  background: #050505;
+  color: #c8c8c8;
+  overflow: hidden;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* Canvas covers the full viewport. */
+canvas#field {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Tiny monospace meta line, lower left, above the stripe. No glow, no card. */
+#meta {
+  position: fixed;
+  left: 10px;
+  bottom: 42px;
+  margin: 0;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #555555;
+  letter-spacing: 0.03em;
+}
+
+/* Status barcode: full-width bar pinned to the bottom. No label, no text. */
+#stripe {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 30px;
+  display: block;
+}

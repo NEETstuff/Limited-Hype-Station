@@ -14,6 +14,7 @@
   "checks": {
     "must_200": [
       "/",
+      "/desk.html",
       "/handoff.html",
       "/want-ad.html",
       "/llms.txt",
