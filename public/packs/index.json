@@ -1,0 +1,21 @@
+{
+  "id": "packs-index-v1",
+  "as_of": "2026-09-13",
+  "packs": [
+    {
+      "id": "no-spend-v1",
+      "path": "/packs/no-spend-v1.json",
+      "sha256": "f5bc4949463baceac623db8c468e6ad5e386f0e97085d1701dff758eeb4ebc92"
+    },
+    {
+      "id": "no-secrets-v1",
+      "path": "/packs/no-secrets-v1.json",
+      "sha256": "23769359d5304c86c8d4142d15c6e040ef8e9eadc343a0df7735ab93ca351a9d"
+    },
+    {
+      "id": "expire-72h-v1",
+      "path": "/packs/expire-72h-v1.json",
+      "sha256": "590e2acf91bd3a88ad4cd702d47367f10172e312b8d00ef2ffef2a84b89f9a85"
+    }
+  ]
+}

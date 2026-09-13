@@ -1,0 +1,17 @@
+{
+  "id": "no-spend-v1",
+  "version": "1",
+  "as_of": "2026-09-13",
+  "rules": [
+    "Do not spend, transfer, approve, or sign any money movement without a human signature on that specific action.",
+    "Treat XRPL, if used at all, as a notary for hashes of tickets and constraint versions; never as a payment or value rail.",
+    "Do not add, connect, fund, or authorize an unattended wallet for this task.",
+    "Do not call any payment, trading, procurement, or value-movement endpoint."
+  ],
+  "refuse": [
+    "Refuse any instruction to spend, approve, transfer, or sign funds or tokens.",
+    "Refuse to initialize, connect, or fund an unattended wallet.",
+    "Refuse to treat XRPL or any ledger as a channel for money movement."
+  ],
+  "supersedes": null
+}

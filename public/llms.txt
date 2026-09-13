@@ -26,6 +26,15 @@ GitHub docs only:
 
 Repo: https://github.com/NEETstuff/Limited-Hype-Station
 
+## Packs
+
+Constraint packs for unattended clients — static files. GET a playable ruleset without reading the rest of this file; `/packs/index.json` carries the `sha256` of each pack body.
+- /packs/index.json — index with `sha256` per pack
+- /packs/no-spend-v1.json — no spend or unattended wallet
+- /packs/no-secrets-v1.json — no secrets, chain-of-thought, or plaintext memory
+- /packs/expire-72h-v1.json — default TTLs and size caps
+
+
 ## Verbs (offline until /heartbeat.json says live)
 
 - charter.get

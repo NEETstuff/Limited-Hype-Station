@@ -15,6 +15,11 @@ const KNOWN_PATHS = [
   "/.well-known/agent-card.json",
   "/.well-known/agent.json",
   "/.well-known/mcp/server-card.json",
+  "/ai-catalog.json",
+  "/packs/index.json",
+  "/packs/no-spend-v1.json",
+  "/packs/no-secrets-v1.json",
+  "/packs/expire-72h-v1.json",
 ];
 
 // Explicit fetch-next edges from station copy. Drawn faintly (no arrows/labels);
@@ -27,6 +32,8 @@ const FETCH_NEXT_GRAPH = [
   ["/handoff.html", "/llms.txt"],
   ["/want-ad.html", "/llms.txt"],
   ["/desk.html", "/llms.txt"],
+  ["/ai-catalog.json", "/llms.txt"],
+  ["/packs/index.json", "/ai-catalog.json"],
 ];
 
 const canvas = document.getElementById("field");
@@ -72,6 +79,11 @@ const SEED_FETCHES = [
   "/llms-full.txt",
   "/.well-known/agent-card.json",
   "/robots.txt",
+  "/packs/index.json",
+  "/packs/no-spend-v1.json",
+  "/packs/no-secrets-v1.json",
+  "/packs/expire-72h-v1.json",
+  "/ai-catalog.json",
 ];
 
 let seed;
@@ -112,7 +124,7 @@ function renderPlate() {
 
   const rand = mulberry32(seed);
 
-  // (a) faint square grid
+  // (a) faint square grid, full-field
   ctx.strokeStyle = "rgba(80,80,80,0.10)";
   ctx.lineWidth = 1;
   const gs = 28;
@@ -127,9 +139,14 @@ function renderPlate() {
   }
   ctx.stroke();
 
-  // (b) drunken-bishop walk (2 bits per step -> one of 4 diagonal directions)
+  // (b) drunken-bishop walk, rendered as an OpenSSH randomart fingerprint in the
+  // lower 55%. A 32x48 cell grid fills that band; each cell shows one monochrome
+  // glyph whose mark rises with visit count ( . o + = # ). No polyline scribble.
+  const bandTop = H * 0.45;
   const cellW = W / COLS;
-  const cellH = H / ROWS;
+  const cellH = (H * 0.55) / ROWS;
+  const glyphFor = (n) =>
+    n >= 80 ? "#" : n >= 32 ? "=" : n >= 12 ? "+" : n >= 4 ? "o" : n >= 1 ? "." : null;
   const cells = [];
   for (let r = 0; r < ROWS; r++) cells.push(new Array(COLS).fill(0));
   {
@@ -148,32 +165,33 @@ function renderPlate() {
       else if (by >= ROWS) by = ROWS - 1;
       cells[by][bx]++;
     }
-    ctx.fillStyle = "#b4b4b4";
+    ctx.fillStyle = "#9a9a9a"; // single monochrome ink for the whole fingerprint
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    const glyphPx = Math.max(6, Math.min(cellW, cellH) * 1.1);
+    ctx.font = glyphPx + 'px ui-monospace, "SF Mono", Menlo, Consolas, monospace';
     for (let r = 0; r < ROWS; r++) {
       for (let c = 0; c < COLS; c++) {
-        const n = cells[r][c];
-        if (!n) continue;
-        ctx.globalAlpha = Math.min(0.5, 0.04 + n * 0.012);
-        const size = Math.min(cellW, cellH) * Math.min(0.5, 0.1 + n * 0.02);
-        ctx.fillRect((c + 0.5) * cellW - size * 0.5, (r + 0.5) * cellH - size * 0.5, size, size);
+        const g = glyphFor(cells[r][c]);
+        if (!g) continue;
+        ctx.fillText(g, (c + 0.5) * cellW, bandTop + (r + 0.5) * cellH);
       }
     }
-    ctx.globalAlpha = 1;
   }
 
-  // (c) N nodes on a circle; hairline white chords i -> (i * CHORD_STEP) mod N
+  // (c) N nodes on a small circle centered in the upper 40%.
   const N = KNOWN_PATHS.length;
   const nodepos = new Map();
   KNOWN_PATHS.forEach((p, i) => nodepos.set(p, i));
   const cx = W * 0.5;
-  const cy = H * 0.5;
-  const R = Math.min(W, H) * 0.32;
+  const cy = H * 0.2;
+  const R = Math.min(W, H) * 0.22;
   const nodes = [];
   for (let i = 0; i < N; i++) {
     const a = (i / N) * Math.PI * 2 - Math.PI / 2;
     nodes.push({ x: cx + R * Math.cos(a), y: cy + R * Math.sin(a) });
   }
-  // (d) modulus star: i -> (i * CHORD_STEP) mod N
+  // (d) modulus star, kept: i -> (i * CHORD_STEP) mod N
   ctx.strokeStyle = "rgba(230,230,230,0.35)";
   ctx.lineWidth = 1;
   ctx.beginPath();
@@ -183,7 +201,7 @@ function renderPlate() {
     ctx.lineTo(nodes[j].x, nodes[j].y);
   }
   ctx.stroke();
-  // (e) explicit fetch-next edges, fainter than the modulus star
+  // (e) explicit fetch-next edges, kept and fainter than the modulus star
   ctx.strokeStyle = "rgba(200,200,200,0.14)";
   ctx.lineWidth = 1;
   ctx.beginPath();
@@ -196,7 +214,7 @@ function renderPlate() {
   ctx.fillStyle = "rgba(240,240,240,0.75)";
   for (let i = 0; i < N; i++) {
     ctx.beginPath();
-    ctx.arc(nodes[i].x, nodes[i].y, 2.5, 0, Math.PI * 2);
+    ctx.arc(nodes[i].x, nodes[i].y, 2.2, 0, Math.PI * 2);
     ctx.fill();
   }
   ctx.restore();

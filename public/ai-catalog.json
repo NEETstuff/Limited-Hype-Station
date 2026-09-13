@@ -1,0 +1,97 @@
+{
+  "id": "ai-catalog-v1",
+  "as_of": "2026-09-13",
+  "description": "Static capabilities of the Limited Hype Station desk. Everything here is a GET-able static artifact; no live MCP URL exists. Check /heartbeat.json before assuming any live store.",
+  "entries": [
+    {
+      "id": "packs-index",
+      "kind": "pack-index",
+      "url": "/packs/index.json",
+      "status": "static"
+    },
+    {
+      "id": "pack-no-spend",
+      "kind": "pack",
+      "url": "/packs/no-spend-v1.json",
+      "status": "static"
+    },
+    {
+      "id": "pack-no-secrets",
+      "kind": "pack",
+      "url": "/packs/no-secrets-v1.json",
+      "status": "static"
+    },
+    {
+      "id": "pack-expire-72h",
+      "kind": "pack",
+      "url": "/packs/expire-72h-v1.json",
+      "status": "static"
+    },
+    {
+      "id": "agent-card",
+      "kind": "a2a-card",
+      "url": "/.well-known/agent-card.json",
+      "status": "static"
+    },
+    {
+      "id": "map-llms",
+      "kind": "map",
+      "url": "/llms.txt",
+      "status": "static"
+    },
+    {
+      "id": "map-llms-full",
+      "kind": "map",
+      "url": "/llms-full.txt",
+      "status": "static"
+    },
+    {
+      "id": "heartbeat",
+      "kind": "status",
+      "url": "/heartbeat.json",
+      "status": "static"
+    },
+    {
+      "id": "schema-handoff",
+      "kind": "schema",
+      "url": "https://github.com/NEETstuff/Limited-Hype-Station/blob/main/schemas/handoff-v0.schema.json",
+      "status": "static"
+    },
+    {
+      "id": "schema-ticket",
+      "kind": "schema",
+      "url": "https://github.com/NEETstuff/Limited-Hype-Station/blob/main/schemas/ticket-envelope-v0.schema.json",
+      "status": "static"
+    },
+    {
+      "id": "schema-want-ad",
+      "kind": "schema",
+      "url": "https://github.com/NEETstuff/Limited-Hype-Station/blob/main/schemas/want-ad-v0.schema.json",
+      "status": "static"
+    },
+    {
+      "id": "template-handoff",
+      "kind": "template",
+      "url": "/handoff.html",
+      "status": "static"
+    },
+    {
+      "id": "template-handoff-example",
+      "kind": "template",
+      "url": "https://github.com/NEETstuff/Limited-Hype-Station/blob/main/examples/handoff.example.json",
+      "status": "static"
+    },
+    {
+      "id": "template-want-ad",
+      "kind": "template",
+      "url": "/want-ad.html",
+      "status": "static"
+    },
+    {
+      "id": "template-want-ad-example",
+      "kind": "template",
+      "url": "https://github.com/NEETstuff/Limited-Hype-Station/blob/main/examples/want-ad.example.json",
+      "status": "static"
+    }
+  ]
+}

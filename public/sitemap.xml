@@ -51,6 +51,31 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://limitedhy.pe/ai-catalog.json</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://limitedhy.pe/packs/index.json</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://limitedhy.pe/packs/no-spend-v1.json</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://limitedhy.pe/packs/no-secrets-v1.json</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://limitedhy.pe/packs/expire-72h-v1.json</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://github.com/NEETstuff/Limited-Hype-Station</loc>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>

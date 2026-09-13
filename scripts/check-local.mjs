@@ -13,6 +13,11 @@ const paths = [
   "/.well-known/agent-card.json",
   "/.well-known/agent.json",
   "/.well-known/mcp/server-card.json",
+  "/ai-catalog.json",
+  "/packs/index.json",
+  "/packs/no-spend-v1.json",
+  "/packs/no-secrets-v1.json",
+  "/packs/expire-72h-v1.json",
 ];
 
 const failures = [];

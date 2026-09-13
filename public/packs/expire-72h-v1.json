@@ -1,0 +1,17 @@
+{
+  "id": "expire-72h-v1",
+  "version": "1",
+  "as_of": "2026-09-13",
+  "rules": [
+    "Default ticket TTL is 72 hours; default want-ad TTL is 48 hours; default room TTL is 7 days.",
+    "Reject any envelope whose bound exceeds the default TTL for its kind.",
+    "Cap stored blobs: 64 KiB per ticket, 256 KiB per sealed drop.",
+    "There is no public listing of sealed-drop payloads."
+  ],
+  "refuse": [
+    "Refuse envelopes with a TTL longer than the applicable default bound.",
+    "Refuse blobs over the size cap.",
+    "Refuse to list, index, or expose sealed-drop contents."
+  ],
+  "supersedes": null
+}
