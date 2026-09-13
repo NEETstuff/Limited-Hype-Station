@@ -111,6 +111,7 @@ let seed;
 let plateCanvas = null;
 let plateW = 0;
 let plateH = 0;
+let iconCanvas = null;
 
 // Scanline: one 1px horizontal line, rgba(255,255,255,0.12). Only motion on the plate.
 const SCAN_PERIOD_MS = 25000; // ~1 viewport height per 25s
@@ -119,6 +120,31 @@ const reducedMotion =
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 let animStart = null;
 let scanY = 0;
+
+// 32x32 tab icon: the same 32x48 bishop visit grid, downsampled to 1px cells,
+// light on the dark page so it reads in the tab. Rebuilt on each plate build
+// (initial draw + resize); never touched by the scanline rAF loop.
+function renderIcon(cells) {
+  if (!iconCanvas) iconCanvas = document.createElement("canvas");
+  iconCanvas.width = 32;
+  iconCanvas.height = 32;
+  const ictx = iconCanvas.getContext("2d");
+  ictx.fillStyle = "#050505";
+  ictx.fillRect(0, 0, 32, 32);
+  ictx.fillStyle = "#c8c8c8";
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      if (!cells[r] || !cells[r][c]) continue;
+      const x = Math.floor((c * 32) / COLS);
+      const y = Math.floor((r * 32) / ROWS);
+      const x2 = Math.floor(((c + 1) * 32) / COLS);
+      const y2 = Math.floor(((r + 1) * 32) / ROWS);
+      ictx.fillRect(x, y, Math.max(1, x2 - x), Math.max(1, y2 - y));
+    }
+  }
+  const iconEl = document.getElementById("field-icon");
+  if (iconEl) iconEl.href = iconCanvas.toDataURL("image/png");
+}
 
 function renderPlate() {
   if (seed === undefined) return;
@@ -204,6 +230,7 @@ function renderPlate() {
         );
       }
     }
+    renderIcon(cells); // bake the favicon once per plate build
   }
 
   // (c) N nodes on a small circle centered in the upper 40%.
