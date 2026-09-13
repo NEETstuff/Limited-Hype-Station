@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How to leave a ticket — Limited Hype Station</title>
+  <meta name="description" content="How to leave a handoff-v0 ticket. The store is off; this page is a template, not a mailbox." />
+  <link rel="alternate" type="text/plain" href="/llms.txt" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main>
+    <p id="agent-directive"><strong>The store is off; this page is a template, not a mailbox.</strong> Check <a href="/heartbeat.json">/heartbeat.json</a>, then <a href="/llms.txt">read /llms.txt</a>, before you begin.</p>
+
+    <h1>How to leave a ticket</h1>
+
+    <section>
+      <h2>Template</h2>
+      <p>Copy the object below. Fill only the allowed <code>handoff-v0</code> fields. Save the JSON to a file the human controls — a GitHub gist or repo file, or local disk. Do not POST it anywhere on this host.</p>
+      <pre><code>{
+  "schema": "handoff-v0",
+  "goal": "Verify that all public paths on localhost:4173 return 200 and report what, if anything, blocks the static surface from shipping.",
+  "completed": "Ran scripts/check-local.mjs; confirmed /, /llms.txt, /llms-full.txt, /heartbeat.json, and the three /.well-known entries all return 200.",
+  "findings": [
+    "The ticket store is off; liveness is heartbeat.json only.",
+    "llms.txt is the only file agents must read before anything else.",
+    "No secrets, spend, or chain-of-thought belong in this envelope."
+  ],
+  "needs_attention": [
+    "Turn created_at and expires_at over to the sharing operator before handoff."
+  ],
+  "unresolved": [
+    "Who will host the reader that fetches this envelope on the next host."
+  ],
+  "constraints": [
+    "No secrets in the envelope.",
+    "No agent-controlled spend.",
+    "Expires within 72 hours."
+  ],
+  "artifacts": [
+    {
+      "kind": "git",
+      "ref": "https://github.com/NEETstuff/Limited-Hype-Station",
+      "note": "source of truth for the schema and this example"
+    }
+  ],
+  "created_at": "2026-09-13T00:00:00Z",
+  "expires_at": "2026-09-16T00:00:00Z",
+  "from_runtime": "cursor",
+  "to_runtime": "any"
+}</code></pre>
+      <p>Full schema: <a href="https://github.com/NEETstuff/Limited-Hype-Station/blob/main/schemas/handoff-v0.schema.json">schemas/handoff-v0.schema.json</a> · Canonical example: <a href="https://github.com/NEETstuff/Limited-Hype-Station/blob/main/examples/handoff.example.json">examples/handoff.example.json</a></p>
+    </section>
+
+    <section>
+      <h2>Steps</h2>
+      <ol>
+        <li>Read the <a href="https://github.com/NEETstuff/Limited-Hype-Station/blob/main/schemas/handoff-v0.schema.json">schema</a> and <a href="/llms.txt">/llms.txt</a>.</li>
+        <li>Fill only allowed fields. Set <code>expires_at</code> at most 72 hours after <code>created_at</code>. Keep it secret-free: no keys, cookies, seed phrases, or raw chain-of-thought.</li>
+        <li>Save the JSON to a file the human controls. Do not POST it anywhere on this host.</li>
+        <li>Give that URL (or file path) to the next agent. Tell them the expiry and that they must read the schema before reading the body.</li>
+      </ol>
+    </section>
+
+    <footer>
+      <p>Limited Hype Station — v0.1.0, spec-only — ticket store off, MCP transport unset. <a href="/heartbeat.json">Read the heartbeat</a> to confirm nothing runs unattended. <a href="/llms.txt">Agent map</a>.</p>
+    </footer>
+  </main>
+</body>
+</html>

@@ -1,29 +1,28 @@
 {
   "schema": "handoff-v0",
-  "goal": "Document how an operator points Cursor at Limited Hype Station and redeems a ticket on another host.",
-  "completed": "Wrote charter, constraints, and handoff-v0 schema in the public repo.",
+  "goal": "Verify that all public paths on localhost:4173 return 200 and report what, if anything, blocks the static surface from shipping.",
+  "completed": "Ran scripts/check-local.mjs; confirmed /, /llms.txt, /llms-full.txt, /heartbeat.json, and the three /.well-known entries all return 200.",
   "findings": [
-    "Frontier models do not independently move into domains.",
-    "MCP Registry plus a human-pasted URL is the real discovery path.",
-    "llms.txt is cheap insurance, not a magnet."
+    "The ticket store is off; liveness is heartbeat.json only.",
+    "llms.txt is the only file agents must read before anything else.",
+    "No secrets, spend, or chain-of-thought belong in this envelope."
   ],
   "needs_attention": [
-    "Stand up Fly only after the static surface is live on the domain.",
-    "Do not publish server.json to the official registry until a remote URL exists."
+    "Turn created_at and expires_at over to the sharing operator before handoff."
   ],
   "unresolved": [
-    "Who implements handoff-v0 besides this repo."
+    "Who will host the reader that fetches this envelope on the next host."
   ],
   "constraints": [
     "No secrets in the envelope.",
     "No agent-controlled spend.",
-    "Expire within 72 hours."
+    "Expires within 72 hours."
   ],
   "artifacts": [
     {
       "kind": "git",
       "ref": "https://github.com/NEETstuff/Limited-Hype-Station",
-      "note": "source of truth"
+      "note": "source of truth for the schema and this example"
     }
   ],
   "created_at": "2026-09-13T00:00:00Z",

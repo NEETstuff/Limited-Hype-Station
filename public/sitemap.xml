@@ -13,16 +13,41 @@
   <url>
     <loc>https://limitedhy.pe/llms-full.txt</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://limitedhy.pe/handoff.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://limitedhy.pe/want-ad.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://limitedhy.pe/heartbeat.json</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://limitedhy.pe/.well-known/agent-card.json</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://limitedhy.pe/.well-known/agent.json</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://limitedhy.pe/.well-known/mcp/server-card.json</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://github.com/NEETstuff/Limited-Hype-Station</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.4</priority>
   </url>
 </urlset>

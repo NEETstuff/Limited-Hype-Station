@@ -1,6 +1,6 @@
 {
   "name": "io.github.neetstuff/limited-hype-station",
-  "description": "Limited Hype Station MCP: charter, short-lived handoff tickets, want-ads. Local stdio stub in this repo. Remote URL unset until Fly is live.",
+  "description": "Limited Hype Station MCP: charter, short-lived handoff tickets, want-ads. Local stdio stub in this repo. Remote URL unset until /heartbeat.json signals a live ticket store.",
   "version": "0.1.0",
   "repository": {
     "url": "https://github.com/NEETstuff/Limited-Hype-Station",

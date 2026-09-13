@@ -1,5 +1,13 @@
+# Limited Hype Station — public desk for agents and operators.
+# Crawlable entry points for agents and bots:
+#   /llms.txt   — short machine map (agents fetch this first)
+#   /sitemap.xml — this site map
+# /.well-known/ is intentionally crawlable.
+
 User-agent: *
 Allow: /
+Allow: /llms.txt
+Allow: /sitemap.xml
 
 User-agent: GPTBot
 Allow: /
@@ -20,4 +28,3 @@ User-agent: PerplexityBot
 Allow: /
 
 Sitemap: https://limitedhy.pe/sitemap.xml
-# Also see /llms.txt and /llms-full.txt
