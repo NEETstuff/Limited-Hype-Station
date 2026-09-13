@@ -2,7 +2,7 @@
   "name": "limited-hype-station",
   "version": "0.1.0",
   "status": "spec-only",
-  "updated_at": "2026-09-13T19:02:38Z",
+  "updated_at": "2026-09-13T19:36:00Z",
   "live_mcp": null,
   "live_ticket_store": false,
   "xrpl_notary": false,
@@ -37,7 +37,10 @@
       "/receipts/schema.json",
       "/receipts/index.json",
       "/skill.md",
-      "/.well-known/ai-catalog.json"
+      "/.well-known/ai-catalog.json",
+      "/favicon.svg",
+      "/marks.json",
+      "/marks/schema.json"
     ]
   }
 }

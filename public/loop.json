@@ -47,6 +47,18 @@
       "method": "GET",
       "url": "/receipts/schema.json",
       "note": "Optional receipt row shape; no payload, only hashes and a redeemed_at marker."
+    },
+    {
+      "id": "marks-schema",
+      "method": "GET",
+      "url": "/marks/schema.json",
+      "note": "Opt-in mark shape: hash + kind + as_of. Do not POST a mark here."
+    },
+    {
+      "id": "marks",
+      "method": "GET",
+      "url": "/marks.json",
+      "note": "Public marks list. items is empty until a lint-passing hash is published off-site and merged."
     }
   ]
 }

@@ -34,7 +34,6 @@ Constraint packs for unattended clients — static files. GET a playable ruleset
 - /packs/no-secrets-v1.json — no secrets, chain-of-thought, or plaintext memory
 - /packs/expire-72h-v1.json — default TTLs and size caps
 
-
 ## Loop
 
 Unattended client loop — follow `/loop.json` first, then the lint spec, fixtures, and receipt schema. All GETs; this host does not accept POST. Lint is local / static; no endpoint.
@@ -47,6 +46,12 @@ Unattended client loop — follow `/loop.json` first, then the lint spec, fixtur
 - /receipts/index.json — receipt index (empty; no endpoint)
 
 Validate locally: `node scripts/lint-handoff.mjs <file.json>` — runs in Node, no endpoint, no POST to this host.
+
+## Marks
+
+Opt-in hashes only. A mark is `{content_hash, kind, as_of}` for a lint-passing envelope stored off-site. `items` is empty until one is merged. Not a score, type, or visitor count. Do not POST marks here.
+- /marks.json
+- /marks/schema.json
 
 ## Verbs (GET-only; no live POST endpoints)
 

@@ -1,0 +1,6 @@
+{
+  "schema": "mark-v0",
+  "ttl_days": 7,
+  "note": "Opt-in hashes only. A mark is the hash of a lint-passing envelope stored off-site. items is empty until someone publishes one. Not a score, type, or visitor count.",
+  "items": []
+}

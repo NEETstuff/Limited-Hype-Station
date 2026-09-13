@@ -27,6 +27,9 @@ const paths = [
   "/receipts/index.json",
   "/skill.md",
   "/.well-known/ai-catalog.json",
+  "/favicon.svg",
+  "/marks.json",
+  "/marks/schema.json",
 ];
 
 const failures = [];

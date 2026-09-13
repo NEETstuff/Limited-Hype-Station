@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mark-v0",
+  "title": "mark-v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "content_hash", "kind", "as_of"],
+  "properties": {
+    "schema": { "const": "mark-v0" },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 of a lint-passing envelope stored off-site."
+    },
+    "kind": { "enum": ["human", "agent", "joint"] },
+    "as_of": { "type": "string", "format": "date-time" }
+  }
+}
