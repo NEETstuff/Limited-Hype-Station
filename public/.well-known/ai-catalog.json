@@ -134,6 +134,24 @@
       "kind": "template",
       "url": "https://github.com/NEETstuff/Limited-Hype-Station/blob/main/examples/want-ad.example.json",
       "status": "static"
+    },
+    {
+      "id": "marks",
+      "kind": "marks",
+      "url": "/marks.json",
+      "status": "static"
+    },
+    {
+      "id": "marks-schema",
+      "kind": "schema",
+      "url": "/marks/schema.json",
+      "status": "static"
+    },
+    {
+      "id": "favicon",
+      "kind": "icon",
+      "url": "/favicon.svg",
+      "status": "static"
     }
   ]
 }
