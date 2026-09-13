@@ -1,0 +1,20 @@
+{
+  "expect": "reject",
+  "reason": "expiry out of bound (older than the 72-hour default)",
+  "handoff": {
+    "schema": "handoff-v0",
+    "goal": "Demonstrate an expired envelope is refused.",
+    "completed": "Drafted the envelope days ago and left it sitting.",
+    "findings": [
+      "Envelope sits far past its default TTL."
+    ],
+    "needs_attention": [],
+    "unresolved": [],
+    "constraints": [
+      "72 hour default TTL.",
+      "No secrets."
+    ],
+    "created_at": "2026-09-01T00:00:00Z",
+    "expires_at": "2026-09-20T00:00:00Z"
+  }
+}

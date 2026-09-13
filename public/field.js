@@ -193,7 +193,7 @@ function renderPlate() {
         const n = cells[r][c];
         if (!n) continue;
         const t = n / maxVis; // 0..1 by visit count
-        const size = Math.max(3, cellMin * (0.3 + 0.5 * t)); // 30% -> 80%, min 3 CSS px
+        const size = Math.max(4, cellMin * (0.35 + 0.55 * t)); // 35% -> 90%, min 4 CSS px
         const alpha = 0.35 + 0.55 * t; // 0.35 -> 0.9
         ctx.fillStyle = "rgba(200,200,200," + alpha.toFixed(3) + ")";
         ctx.fillRect(
@@ -301,31 +301,30 @@ function renderStripe() {
   ctx.clearRect(0, 0, W, Hbar);
 
   const rand = mulberry32(seed ^ 0x5154);
-  // bar list: short run of quiet, bit0, quiet, bit1, quiet, bit2, trailing quiet
-  const bars = [];
-  const quiet = (n) => { while (n-- > 0) bars.push({ t: "q" }); };
-  quiet(3);
-  bars.push({ t: "b", i: 0 });
-  quiet(2);
-  bars.push({ t: "b", i: 1 });
-  quiet(2);
-  bars.push({ t: "b", i: 2 });
-  quiet(3);
 
-  const gap = 3;
-  const barW = (W - gap * (bars.length + 1)) / bars.length;
-  let x = gap;
-  for (const b of bars) {
-    if (b.t === "q") {
-      const qh = Hbar * (0.3 + 0.35 * rand());
-      ctx.fillStyle = "rgba(180,180,180,0.25)";
-      ctx.fillRect(x, Hbar - qh, barW, qh);
-    } else {
-      const on = currentBits[b.i] === 1;
-      ctx.fillStyle = on ? "#e2e2e2" : "#0f0f0f";
-      ctx.fillRect(x, 0, barW, Hbar);
-    }
-    x += barW + gap;
+  // Quiet filler: a barcode of many thin vertical ticks across the full width,
+  // bottom-anchored, translucent gray, heights/opacity rolling off the seed.
+  const tickW = 2;   // CSS px
+  const tickGap = 3; // CSS px
+  let x = 1;
+  while (x < W - 1) {
+    const qh = Hbar * (0.25 + 0.55 * rand()); // 25%..80% of the 30px band
+    const qa = 0.10 + 0.18 * rand();          // 0.10..0.28
+    ctx.fillStyle = "rgba(190,190,190," + qa.toFixed(3) + ")";
+    ctx.fillRect(x, Hbar - qh, tickW, qh);
+    x += tickW + tickGap;
+  }
+
+  // Three tall bit bars: mcp | store | xrpl. Still 000 -> three solid dark
+  // full-height bars, clearly taller and denser than the filler ticks.
+  const slots = 3;
+  const slotW = 6; // CSS px, full height
+  const span = W - slotW;
+  for (let k = 0; k < slots; k++) {
+    const on = currentBits[k] === 1;
+    const bx = (span / slots) * (k + 0.5) - slotW / 2;
+    ctx.fillStyle = on ? "#e2e2e2" : "#0f0f0f";
+    ctx.fillRect(bx, 0, slotW, Hbar);
   }
   ctx.restore();
 }

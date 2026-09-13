@@ -29,7 +29,16 @@
       "/packs/index.json",
       "/packs/no-spend-v1.json",
       "/packs/no-secrets-v1.json",
-      "/packs/expire-72h-v1.json"
+      "/packs/expire-72h-v1.json",
+      "/loop.json",
+      "/lint/handoff.json",
+      "/lint/accepts/minimal.json",
+      "/lint/rejects/secret-in-envelope.json",
+      "/lint/rejects/expired.json",
+      "/receipts/schema.json",
+      "/receipts/index.json",
+      "/skill.md",
+      "/.well-known/ai-catalog.json"
     ]
   }
 }

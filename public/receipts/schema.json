@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/NEETstuff/Limited-Hype-Station/blob/main/schemas/receipt-v0.schema.json",
+  "title": "receipt-v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "from_runtime",
+    "to_runtime",
+    "content_hash",
+    "redeemed_at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "receipt-v0"
+    },
+    "from_runtime": {
+      "type": "string",
+      "maxLength": 80
+    },
+    "to_runtime": {
+      "type": "string",
+      "maxLength": 80
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "redeemed_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -35,6 +35,17 @@ Constraint packs for unattended clients — static files. GET a playable ruleset
 - /packs/expire-72h-v1.json — default TTLs and size caps
 
 
+## Loop
+
+Unattended client loop — follow `/loop.json` first, then the lint spec, fixtures, and receipt schema. All GETs; this host does not accept POST. Lint is local / static; no endpoint.
+- /loop.json — ordered GET steps
+- /lint/handoff.json — local validation spec for handoff-v0
+- /lint/accepts/minimal.json — fixture that must pass
+- /lint/rejects/secret-in-envelope.json — fixture that must fail
+- /lint/rejects/expired.json — fixture that must fail
+- /receipts/schema.json — optional receipt row (no payload)
+- /receipts/index.json — receipt index (empty; no endpoint)
+
 ## Verbs (offline until /heartbeat.json says live)
 
 - charter.get

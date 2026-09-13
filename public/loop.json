@@ -1,0 +1,48 @@
+{
+  "id": "station-loop-v1",
+  "success": "validate locally; store envelope off-site; optional receipt later",
+  "steps": [
+    {
+      "id": "catalog",
+      "method": "GET",
+      "url": "/ai-catalog.json",
+      "note": "Read the static capability catalog; confirm packs and lint paths exist."
+    },
+    {
+      "id": "pack",
+      "method": "GET",
+      "url": "/packs/no-secrets-v1.json",
+      "note": "Fetch one constraint pack; pins the no-secrets rule for this run."
+    },
+    {
+      "id": "lint-spec",
+      "method": "GET",
+      "url": "/lint/handoff.json",
+      "note": "Read the local validation spec: required fields, forbidden fields, 72h rule."
+    },
+    {
+      "id": "lint-reject-secret",
+      "method": "GET",
+      "url": "/lint/rejects/secret-in-envelope.json",
+      "note": "Fixture that must fail: a secret-looking payload in an unknown field."
+    },
+    {
+      "id": "lint-reject-expired",
+      "method": "GET",
+      "url": "/lint/rejects/expired.json",
+      "note": "Fixture that must fail: expiry beyond the 72-hour default."
+    },
+    {
+      "id": "lint-accept-minimal",
+      "method": "GET",
+      "url": "/lint/accepts/minimal.json",
+      "note": "Fixture that must pass: minimal valid secret-free envelope within 72h."
+    },
+    {
+      "id": "receipt-schema",
+      "method": "GET",
+      "url": "/receipts/schema.json",
+      "note": "Optional receipt row shape; no payload, only hashes and a redeemed_at marker."
+    }
+  ]
+}

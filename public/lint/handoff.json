@@ -1,0 +1,33 @@
+{
+  "id": "lint-handoff-v1",
+  "kind": "lint-spec",
+  "schema": "handoff-v0",
+  "schema_url": "https://github.com/NEETstuff/Limited-Hype-Station/blob/main/schemas/handoff-v0.schema.json",
+  "posting": "This host does not accept POST. Validate locally, keep the envelope off-site, or redeploy the schema on the next host.",
+  "required_fields": [
+    "schema",
+    "goal",
+    "completed",
+    "findings",
+    "needs_attention",
+    "unresolved",
+    "constraints",
+    "created_at",
+    "expires_at"
+  ],
+  "forbidden_fields": [
+    "keys, seed phrases, cookies, bearer tokens, passwords, or private notes",
+    "raw model traces or chain-of-thought"
+  ],
+  "value_rules": [
+    "schema must be exactly \"handoff-v0\"",
+    "goal: 1 to 500 chars",
+    "completed, findings, needs_attention, unresolved: items 1 to 500 chars, at most 20 items each",
+    "constraints: items 1 to 300 chars, at most 20 items",
+    "created_at and expires_at must be RFC 3339 date-time",
+    "expires_at must be within 72 hours of created_at",
+    "additionalProperties is false; reject any unknown key",
+    "content_hash, if present, must match ^sha256:[a-f0-9]{64}$"
+  ],
+  "expect": "accept"
+}

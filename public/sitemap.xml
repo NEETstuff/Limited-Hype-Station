@@ -76,6 +76,51 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://limitedhy.pe/loop.json</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://limitedhy.pe/lint/handoff.json</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://limitedhy.pe/lint/accepts/minimal.json</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://limitedhy.pe/lint/rejects/secret-in-envelope.json</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://limitedhy.pe/lint/rejects/expired.json</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://limitedhy.pe/receipts/schema.json</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://limitedhy.pe/receipts/index.json</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://limitedhy.pe/skill.md</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://limitedhy.pe/.well-known/ai-catalog.json</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://github.com/NEETstuff/Limited-Hype-Station</loc>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>

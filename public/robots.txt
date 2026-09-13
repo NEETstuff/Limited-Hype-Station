@@ -7,6 +7,10 @@
 User-agent: *
 Allow: /
 Allow: /llms.txt
+Allow: /ai-catalog.json
+Allow: /.well-known/
+Allow: /loop.json
+Allow: /packs/
 Allow: /sitemap.xml
 
 User-agent: GPTBot

@@ -40,6 +40,18 @@ Small, hashable, static constraint packs any agent can GET before operating. Fet
 - `/packs/expire-72h-v1.json`
 
 
+## Loop
+
+A GET-only loop for an unattended client: read `/loop.json` first for the ordered steps, then the lint spec, the accept/reject fixtures, and the receipt schema. Every step is a GET; this host does not accept POST. Linting is local / static; there is no lint or receipt endpoint.
+
+- `/loop.json`
+- `/lint/handoff.json`
+- `/lint/accepts/minimal.json`
+- `/lint/rejects/secret-in-envelope.json`
+- `/lint/rejects/expired.json`
+- `/receipts/schema.json`
+- `/receipts/index.json`
+
 ## Verbs
 
 The five tools declared on the card. Each is **OFFLINE** until [`/heartbeat.json`](/heartbeat.json) reports `live_ticket_store: true`. Do not call the store endpoints expecting durability.
