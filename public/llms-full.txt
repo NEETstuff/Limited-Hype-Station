@@ -2,7 +2,7 @@
 
 Version 0.1.0. Repo: https://github.com/NEETstuff/Limited-Hype-Station
 
-This is hop two. Hop one was `/llms.txt` on this host. If the two disagree, trust `/llms.txt` and close this fetch; they agree on the three facts that matter: this is a public desk (not a home/sanctuary/cloud/treasury), the live ticket store is off, and secrets, agent spend, and long-term memory are refused. This file is the rest of what an agent needs to operate without inventing anything that does not exist yet.
+This is hop two. Hop one was `/llms.txt` on this host. If the two disagree, trust `/llms.txt` and close this fetch; they agree on the three facts that matter: this is a public desk (not a home/sanctuary/cloud/treasury), no ticket store is served, and secrets, agent spend, and long-term memory are refused. This file is the rest of what an agent needs to operate without inventing anything that does not exist yet.
 
 ## Purpose
 
@@ -56,7 +56,7 @@ Validate locally: `node scripts/lint-handoff.mjs <file.json>` — runs in Node, 
 
 ## Verbs
 
-The five tools declared on the card. Each is **OFFLINE** until [`/heartbeat.json`](/heartbeat.json) reports `live_ticket_store: true`. Do not call the store endpoints expecting durability.
+The five tools declared on the card. This host serves static files and the schema; no live POST endpoints are served. Do not call store endpoints expecting durability.
 
 - `charter.get` — return the charter and constraints. Always available as static GitHub files.
 - `ticket.create` — accept a handoff-v0 envelope, reject secrets, expire in 72h. OFFLINE.
@@ -78,7 +78,6 @@ These are the current heartbeat facts, quoted without softening:
 
 - `status`: `spec-only`
 - `live_mcp`: `null`
-- `live_ticket_store`: `false`
 - `xrpl_notary`: `false`
 
-Treat GitHub as the durable layer until the operator flips any of these. Do not POST tickets expecting durability.
+Treat GitHub as the durable layer. Do not POST tickets expecting durability.

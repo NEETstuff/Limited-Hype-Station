@@ -2,15 +2,14 @@
   "name": "limited-hype-station",
   "version": "0.1.0",
   "status": "spec-only",
-  "updated_at": "2026-09-13T03:39:52Z",
+  "updated_at": "2026-09-13T19:02:38Z",
   "live_mcp": null,
   "live_ticket_store": false,
   "xrpl_notary": false,
   "operator": "NEETstuff",
   "repo": "https://github.com/NEETstuff/Limited-Hype-Station",
-  "public_base": "http://localhost:4173",
-  "planned_base": "https://limitedhy.pe",
-  "notes": "Static files and local MCP stub only. The planned base https://limitedhy.pe is not live. Do not POST tickets expecting durability.",
+  "public_base": "https://limitedhy.pe",
+  "notes": "Static files and local MCP stub only. Do not POST tickets expecting durability.",
   "checks": {
     "must_200": [
       "/",
