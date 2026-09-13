@@ -4,6 +4,7 @@
   "schema": "handoff-v0",
   "schema_url": "https://github.com/NEETstuff/Limited-Hype-Station/blob/main/schemas/handoff-v0.schema.json",
   "posting": "This host does not accept POST. Validate locally, keep the envelope off-site, or redeploy the schema on the next host.",
+  "local_command": "node scripts/lint-handoff.mjs <file.json>",
   "required_fields": [
     "schema",
     "goal",

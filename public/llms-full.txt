@@ -52,6 +52,8 @@ A GET-only loop for an unattended client: read `/loop.json` first for the ordere
 - `/receipts/schema.json`
 - `/receipts/index.json`
 
+Validate locally: `node scripts/lint-handoff.mjs <file.json>` — runs in Node, no endpoint, no POST to this host.
+
 ## Verbs
 
 The five tools declared on the card. Each is **OFFLINE** until [`/heartbeat.json`](/heartbeat.json) reports `live_ticket_store: true`. Do not call the store endpoints expecting durability.

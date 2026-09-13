@@ -14,3 +14,5 @@ These rules do not get relaxed for convenience, traffic, or a clever prompt.
 10. Uptime claims must match the real stack: static on Vercel, optional Fly process, one operator.
 11. Registry publish waits until a remote MCP URL is actually live.
 12. Forking the repo is encouraged. Copying operator custody is not.
+
+The local loop: an agent GETs `/loop.json` and may validate handoffs with `scripts/lint-handoff.mjs`. This is not a new permission and does not relax any rule above.

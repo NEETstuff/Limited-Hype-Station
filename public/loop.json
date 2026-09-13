@@ -1,6 +1,10 @@
 {
   "id": "station-loop-v1",
   "success": "validate locally; store envelope off-site; optional receipt later",
+  "local": {
+    "command": "node scripts/lint-handoff.mjs <file.json>",
+    "note": "Validate a handoff locally with the lint script; this host does not accept POST."
+  },
   "steps": [
     {
       "id": "catalog",

@@ -46,6 +46,8 @@ Unattended client loop — follow `/loop.json` first, then the lint spec, fixtur
 - /receipts/schema.json — optional receipt row (no payload)
 - /receipts/index.json — receipt index (empty; no endpoint)
 
+Validate locally: `node scripts/lint-handoff.mjs <file.json>` — runs in Node, no endpoint, no POST to this host.
+
 ## Verbs (offline until /heartbeat.json says live)
 
 - charter.get
