@@ -1,0 +1,13 @@
+[
+  {
+    "label": "Station: localhost",
+    "command": "npm run dev",
+    "use_new_terminal": true,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "Station: check local paths",
+    "command": "npm run check",
+    "use_new_terminal": false
+  }
+]

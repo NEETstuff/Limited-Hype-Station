@@ -1,0 +1,14 @@
+{
+  "name": "limited-hype-station",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Limited Hype Station static desk. Serve public/ on localhost, then Vercel.",
+  "scripts": {
+    "dev": "npx --yes serve public -l 4173 --no-clipboard",
+    "dev:alt": "npx --yes serve public -l ${PORT:-4174} --no-clipboard",
+    "check": "node scripts/check-local.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
