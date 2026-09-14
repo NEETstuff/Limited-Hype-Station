@@ -1,0 +1,46 @@
+name: camouflage
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  camouflage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm install
+
+      - name: Station path check
+        run: |
+          npm run dev -- --no-clipboard &
+          SERVER_PID=$!
+          sleep 5
+          npm run check
+          STATUS=$?
+          kill $SERVER_PID || true
+          exit $STATUS
+
+      - name: Forbidden-token scan
+        run: |
+          # Pattern is case-insensitive, matching the ALIGN-WORKFLOW.md gate.
+          # CHARTER.md / desk.html / llms.txt refusal lines ("sanctuary", "habitat")
+          # cannot match this pattern, so they need no exception.
+          # Two narrow fixed-string exceptions for pre-existing documentation:
+          #  - SCORE-ALIGN.md:18 documents the forbidden list itself.
+          #  - CONSTRAINTS.md:13 is the existing "No hidden Lorca" refusal.
+          if rg -n -i 'bastion|escape-hatch|rendezvous|88421007|LIMITEDHYPE|lorca' \
+              public/ CHARTER.md CONSTRAINTS.md README.md SCORE-ALIGN.md \
+            | grep -v -F 'bastion, escape hatch, rendezvous, destination tags, memo prefixes, lorca, private repo URLs' \
+            | grep -v -F 'No hidden Lorca, trading, or procurement page on this brand surface.' \
+            | grep .; then
+            echo "forbidden token found"
+            exit 1
+          fi
+          echo "forbidden-token scan clean"

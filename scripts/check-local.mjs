@@ -18,6 +18,7 @@ const paths = [
   "/packs/no-spend-v1.json",
   "/packs/no-secrets-v1.json",
   "/packs/expire-72h-v1.json",
+  "/packs/caretaker-neutral-v1.json",
   "/loop.json",
   "/lint/handoff.json",
   "/lint/accepts/minimal.json",
