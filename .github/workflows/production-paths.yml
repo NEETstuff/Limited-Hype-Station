@@ -1,0 +1,33 @@
+name: production-paths
+
+on:
+  workflow_dispatch:
+
+jobs:
+  production-paths:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe production must_200 paths
+        run: |
+          set -euo pipefail
+          BASE="https://limitedhy.pe"
+          echo "Fetching $BASE/heartbeat.json"
+          hb="$(curl -sS "$BASE/heartbeat.json")"
+          echo "$hb" | node -e 'JSON.parse(require("fs").readFileSync(0,"utf8"))'
+          paths="$(echo "$hb" | node -e 'let s="";for(const p of JSON.parse(require("fs").readFileSync(0,"utf8")).checks.must_200){s+=p+"\n";}process.stdout.write(s);')"
+          fail=0
+          while IFS= read -r path; do
+            [ -z "$path" ] && continue
+            code="$(curl -sS -o /dev/null -w '%{http_code}' "$BASE$path")"
+            if [ "$code" = "200" ]; then
+              echo "ok  $code $path"
+            else
+              echo "BAD $code $path"
+              fail=1
+            fi
+          done <<< "$paths"
+          if [ "$fail" -ne 0 ]; then
+            echo "production-paths: one or more must_200 paths did not return 200"
+            exit 1
+          fi
+          echo "production-paths: all must_200 paths returned 200"
