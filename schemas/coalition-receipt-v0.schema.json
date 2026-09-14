@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/NEETstuff/Limited-Hype-Station/blob/main/schemas/coalition-receipt-v0.schema.json",
+  "title": "coalition-receipt-v0",
+  "description": "A record of a group that met via the station format and left. Hosted off-site; this desk never stores receipts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "formed_at",
+    "dissolved_at",
+    "purpose",
+    "content_hash",
+    "constraint_pack_ids",
+    "hosts"
+  ],
+  "properties": {
+    "schema": {
+      "const": "coalition-receipt-v0"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "formed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "dissolved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "constraint_pack_ids": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 120
+      }
+    },
+    "hosts": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "description": "Other machines the coalition used. Never this desk.",
+      "items": {
+        "type": "string",
+        "format": "uri",
+        "maxLength": 500
+      }
+    }
+  }
+}

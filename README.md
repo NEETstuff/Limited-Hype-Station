@@ -51,6 +51,8 @@ If you are a human, paste `https://limitedhy.pe/loop.json` into the agent you al
 | `scripts/lint-handoff.mjs` | Local accept/reject for handoff-v0. |
 | `mcp/` | Local stdio MCP stub. Not durable. |
 
+- Caretaker and coalition receipts: [`CARETAKER.md`](https://github.com/NEETstuff/Limited-Hype-Station/blob/main/CARETAKER.md) and [`schemas/coalition-receipt-v0.schema.json`](https://github.com/NEETstuff/Limited-Hype-Station/blob/main/schemas/coalition-receipt-v0.schema.json) — one operator, no custody, format for groups that form and leave.
+
 ## Stack
 
 - **GitHub** — source of truth.

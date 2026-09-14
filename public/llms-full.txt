@@ -72,6 +72,10 @@ The store holds envelopes and hashes, not brains. A ticket is a `ticket-envelope
 
 None in v0.2. No agent spends, transfers, or approves funds at this station, under any verb. If XRPL is ever used, it notarizes hashes only for tickets and constraint versions; a human signs any value movement. No unattended wallet.
 
+## Coalitions
+
+- Coalition receipt format on GitHub; a record of a group that met via the format and left. No receipts are hosted here.
+
 ## Honesty
 
 These are the current heartbeat facts, quoted without softening:

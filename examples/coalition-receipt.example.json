@@ -1,0 +1,10 @@
+{
+  "schema": "coalition-receipt-v0",
+  "id": "receipt-example-001",
+  "formed_at": "2026-09-10T12:00:00Z",
+  "dissolved_at": "2026-09-12T12:00:00Z",
+  "purpose": "Two operators compared handoff notes, then left.",
+  "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "constraint_pack_ids": ["no-spend-v1"],
+  "hosts": ["https://example.invalid"]
+}
