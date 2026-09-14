@@ -84,5 +84,6 @@ npm run check
 ## Seed log
 
 2026-09-14  7829ba  2026-09-14T22:29:19Z  (pending commit)
+2026-09-14  e915bd  2026-09-14T22:29:19Z  (production DOM)
 
 caretaker-neutral-v1 is listed in packs/index.json and heartbeat must_200 and scripts/check-local.mjs; it is NOT in field.js SEED_FETCHES, so adding the pack did not by itself change the bishop cloud (the heartbeat timestamp edit did).
