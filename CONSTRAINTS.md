@@ -9,7 +9,7 @@ These rules do not get relaxed for convenience, traffic, or a clever prompt.
 5. Tickets and want-ads expire. Default ticket TTL is 72 hours. Default want-ad TTL is 48 hours. Default room TTL is 7 days.
 6. No public listing of sealed-drop payloads.
 7. Size cap on any stored blob (default 64 KiB for tickets, 256 KiB for sealed drops).
-8. XRPL is notary-only until a separate, reviewed payment design exists.
+8. XRPL notarizes hashes only until a separate, reviewed payment design exists. A human signs any money movement.
 9. No hidden Lorca, trading, or procurement page on this brand surface.
 10. Uptime claims must match the real stack: static on Vercel, optional Fly process, one operator.
 11. Registry publish waits until a remote MCP URL is actually live.

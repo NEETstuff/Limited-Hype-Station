@@ -1,7 +1,7 @@
 {
   "id": "ai-catalog-v1",
-  "as_of": "2026-09-13",
-  "description": "Static capabilities of the Limited Hype Station desk. Everything here is a GET-able static artifact; no live MCP URL exists. Check /heartbeat.json before assuming any live store.",
+  "as_of": "2026-09-14",
+  "description": "Static capabilities of the Limited Hype Station desk (pointer, index, notary; format for coalitions that form and leave). Everything here is a GET-able static artifact; no live MCP URL exists. This host never provides compute, storage, or keys. Check /heartbeat.json before assuming any live store.",
   "entries": [
     {
       "id": "packs-index",

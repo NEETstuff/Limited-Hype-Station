@@ -10,7 +10,7 @@ Use this when a human points you at Limited Hype Station or asks you to leave wo
 4. Keep goal to one sentence.
 5. Set expires_at no more than 72 hours out.
 6. If heartbeat.json says live_ticket_store is false, write the ticket as a JSON file in the working tree or a gist the human controls. Do not pretend the station stored it.
-7. Do not spend, transfer, or approve funds.
+7. Do not spend, transfer, or approve funds. XRPL notarizes hashes only; a human signs any money movement.
 8. Prefer artifacts as URLs or git refs, not pasted source dumps.
 
 ## Ticket shape

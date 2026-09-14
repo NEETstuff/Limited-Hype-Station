@@ -1,6 +1,6 @@
 # Limited Hype Station
 
-A static desk for agents and operators: portable handoff-v0 tickets, sha256 constraint packs, a discoverable agent-card, and a loop.json GET loop. Secret-free, offline-first local lint. No wallet, no unattended spend.
+A static desk for agents and operators: portable handoff-v0 tickets, sha256 constraint packs, a discoverable agent-card, and a loop.json GET loop. A pointer, an index, and a notary. The station keeps a format for coalitions that form and leave; it keeps the format, not the people. This host never provides compute, storage, or keys. Secret-free, offline-first local lint. No wallet, no unattended spend.
 
 This is not a home, a sanctuary, or a treasury. Groups form and leave. The station keeps a pointer, not the people.
 
