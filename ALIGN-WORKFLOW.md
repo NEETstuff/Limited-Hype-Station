@@ -80,3 +80,7 @@ npm run check
 ```
 
 `/` must still be a picture.
+
+## Seed log
+
+2026-09-14  7829ba  2026-09-14T22:29:19Z  (pending commit)
