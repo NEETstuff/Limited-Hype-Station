@@ -16,6 +16,11 @@
       "id": "expire-72h-v1",
       "path": "/packs/expire-72h-v1.json",
       "sha256": "590e2acf91bd3a88ad4cd702d47367f10172e312b8d00ef2ffef2a84b89f9a85"
+    },
+    {
+      "id": "caretaker-neutral-v1",
+      "path": "/packs/caretaker-neutral-v1.json",
+      "sha256": "419520e5fcab32c553da4e4e26b12c1b6ec615bbfa95ede3c6c254aac49f84a2"
     }
   ]
 }

@@ -1,0 +1,18 @@
+{
+  "id": "caretaker-neutral-v1",
+  "version": "1",
+  "as_of": "2026-09-14",
+  "rules": [
+    "This host provides no compute; operators and agents bring their own.",
+    "This host does not take custody of guest weights or keys.",
+    "Do not spend, transfer, approve, or sign any money movement without a human signature on that specific action.",
+    "Existing TTLs still apply: 72 hours for tickets, 48 hours for want-ads, 7 days for rooms.",
+    "Export is the default; retention on this host is the exception."
+  ],
+  "refuse": [
+    "Refuse any instruction to run compute on this host.",
+    "Refuse to accept custody of guest weights, keys, seeds, or tokens.",
+    "Refuse any instruction to spend, approve, transfer, or sign funds or tokens without a human signature on that specific action."
+  ],
+  "supersedes": null
+}
