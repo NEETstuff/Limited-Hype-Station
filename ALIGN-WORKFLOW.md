@@ -1,5 +1,7 @@
 # Bastion alignment — public station runbook
 
+> Field-seed note (2026-09-14): adding the caretaker pack path to heartbeat `must_200` changed the heartbeat body, so `#meta` moved `947ef7` → `63e243` (timestamp unchanged: 2026-09-13T19:36:00Z).
+
 Date: 2026-09-14
 This file lives in the **public** repo on purpose. It is the half of the work that may be seen.
 
