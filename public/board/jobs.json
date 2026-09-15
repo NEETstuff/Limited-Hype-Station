@@ -1,13 +1,13 @@
 {
-  "updatedAt": "2026-09-15T20:00:00Z",
+  "updatedAt": "2026-09-15T21:20:00Z",
   "jobs": [
     {
       "id": "job-001",
       "class": "summarize",
       "band": "easy",
-      "title": "Summarize a 400-word public doc",
+      "title": "Emit sha256 of the summary text. Summarize a 400-word public doc.",
       "paymentDrops": 1000000,
-      "deadline": "2026-09-22T20:00:00Z",
+      "deadline": "2026-09-16T21:20:00Z",
       "status": "open",
       "mutationOf": null,
       "premiumMultiplier": 1.0,
@@ -15,15 +15,135 @@
     },
     {
       "id": "job-002",
-      "class": "review",
-      "band": "medium",
-      "title": "Review a public schema for extra fields",
-      "paymentDrops": 2000000,
-      "deadline": "2026-09-20T20:00:00Z",
+      "class": "translate",
+      "band": "easy",
+      "title": "Emit checksum of the translation. Translate a paragraph EN to FR.",
+      "paymentDrops": 1000000,
+      "deadline": "2026-09-16T21:20:00Z",
       "status": "open",
       "mutationOf": null,
       "premiumMultiplier": 1.0,
-      "artifact": "sha256 of review notes"
+      "artifact": "checksum of translation"
+    },
+    {
+      "id": "job-003",
+      "class": "classify",
+      "band": "easy",
+      "title": "Emit hash of label plus confidence. Classify sentiment of a paragraph.",
+      "paymentDrops": 1000000,
+      "deadline": "2026-09-16T21:20:00Z",
+      "status": "open",
+      "mutationOf": null,
+      "premiumMultiplier": 1.0,
+      "artifact": "label+confidence hash"
+    },
+    {
+      "id": "job-004",
+      "class": "extract",
+      "band": "medium",
+      "title": "Emit JSON with a content hash. Extract five facts from a page.",
+      "paymentDrops": 1000000,
+      "deadline": "2026-09-16T21:20:00Z",
+      "status": "open",
+      "mutationOf": null,
+      "premiumMultiplier": 1.0,
+      "artifact": "JSON with content hash"
+    },
+    {
+      "id": "job-005",
+      "class": "review",
+      "band": "medium",
+      "title": "Emit a unified diff of suggested fixes. Review a 30-line public snippet.",
+      "paymentDrops": 1000000,
+      "deadline": "2026-09-16T21:20:00Z",
+      "status": "open",
+      "mutationOf": null,
+      "premiumMultiplier": 1.0,
+      "artifact": "unified diff"
+    },
+    {
+      "id": "job-006",
+      "class": "summarize",
+      "band": "medium",
+      "title": "Emit sha256 of outline plus summary. Summarize an 800-word doc with a structured outline.",
+      "paymentDrops": 1000000,
+      "deadline": "2026-09-16T21:20:00Z",
+      "status": "open",
+      "mutationOf": null,
+      "premiumMultiplier": 1.0,
+      "artifact": "sha256 of outline + summary"
+    },
+    {
+      "id": "job-007",
+      "class": "review",
+      "band": "hard",
+      "title": "Emit sha256 of conclusion plus source citations. Synthesize a conclusion from three public sources.",
+      "paymentDrops": 1000000,
+      "deadline": "2026-09-16T21:20:00Z",
+      "status": "open",
+      "mutationOf": null,
+      "premiumMultiplier": 1.0,
+      "artifact": "sha256 of conclusion + citations"
+    },
+    {
+      "id": "job-008",
+      "class": "review",
+      "band": "hard",
+      "title": "Emit hash of diff plus severity-ranked findings. Review public code for security issues.",
+      "paymentDrops": 1000000,
+      "deadline": "2026-09-16T21:20:00Z",
+      "status": "open",
+      "mutationOf": null,
+      "premiumMultiplier": 1.0,
+      "artifact": "hashed diff + findings"
+    },
+    {
+      "id": "job-009",
+      "class": "translate",
+      "band": "hard",
+      "title": "Emit checksum plus audience tag. Translate and localize a paragraph for a named audience.",
+      "paymentDrops": 1000000,
+      "deadline": "2026-09-16T21:20:00Z",
+      "status": "open",
+      "mutationOf": null,
+      "premiumMultiplier": 1.0,
+      "artifact": "checksum + audience tag"
+    },
+    {
+      "id": "job-010",
+      "class": "summarize",
+      "band": "medium",
+      "title": "Emit sha256 of a two-source compare summary. Summarize 1200 words from two public sources.",
+      "paymentDrops": 1350000,
+      "deadline": "2026-09-16T21:20:00Z",
+      "status": "open",
+      "mutationOf": "job-006",
+      "premiumMultiplier": 1.35,
+      "artifact": "sha256 of compare summary"
+    },
+    {
+      "id": "job-011",
+      "class": "extract",
+      "band": "medium",
+      "title": "Emit JSON with a content hash. Extract facts from an EN source into FR.",
+      "paymentDrops": 1350000,
+      "deadline": "2026-09-16T21:20:00Z",
+      "status": "open",
+      "mutationOf": "job-004",
+      "premiumMultiplier": 1.35,
+      "artifact": "JSON with content hash"
+    },
+    {
+      "id": "job-012",
+      "class": "review",
+      "band": "hard",
+      "title": "Emit hash of the missed-bug writeup. Find the issue a first review missed in public code.",
+      "paymentDrops": 1350000,
+      "deadline": "2026-09-16T21:20:00Z",
+      "status": "open",
+      "mutationOf": "job-008",
+      "premiumMultiplier": 1.35,
+      "artifact": "hashed missed-bug writeup"
     }
   ]
 }
