@@ -1,8 +1,8 @@
 # Score alignment (public station)
 
-Private runbook lives in the hatch repo (`SCORE-100-WORKFLOW.md`). This file is the public half only.
+Operator-only runbooks stay out of this tree. This file is the public half only.
 
-Do not name the private repo, tags, or transport in any file under `public/`.
+Do not name a private repository, tags, or transport in any file under `public/`.
 
 ## Public slices to finish
 
@@ -13,6 +13,6 @@ Do not name the private repo, tags, or transport in any file under `public/`.
 | Desk honesty | Heartbeat flags stay false until the thing exists. Optional production curl of `must_200`. |
 | Governance | `schemas/coalition-receipt-v0.schema.json` + `CARETAKER.md` on GitHub. Format for coalitions that leave. Not a home. |
 
-## Forbidden
+## Forbidden under public/
 
-bastion, escape hatch, rendezvous, destination tags, memo prefixes, lorca, private repo URLs under `public/`.
+Cover-story tokens, ledger tags, memo prefixes, sibling product names, and private repository URLs.

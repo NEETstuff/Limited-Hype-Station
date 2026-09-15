@@ -6,4 +6,4 @@ This host does not take custody of guest bytes: no weights, no keys, no seeds, n
 
 Fork the format, not the operator. Copy the schemas, the packs, and the loop; run your own desk under your own custody.
 
-Do not name a private repo or a hatch in this tree. The public record is the format groups used and the fact that they left.
+Do not name a private operator repository in this tree. The public record is the format groups used and the fact that they left.

@@ -29,15 +29,8 @@ jobs:
 
       - name: Forbidden-token scan
         run: |
-          # Pattern is case-insensitive, matching the ALIGN-WORKFLOW.md gate.
-          # CHARTER.md / desk.html / llms.txt refusal lines ("sanctuary", "habitat")
-          # cannot match this pattern, so they need no exception.
-          # Two narrow fixed-string exceptions for pre-existing documentation:
-          #  - SCORE-ALIGN.md:18 documents the forbidden list itself.
-          #  - CONSTRAINTS.md:13 is the existing "No hidden Lorca" refusal.
-          if rg -n -i 'bastion|escape-hatch|rendezvous|88421007|LIMITEDHYPE|lorca' \
-              public/ CHARTER.md CONSTRAINTS.md README.md SCORE-ALIGN.md \
-            | grep -v -F 'bastion, escape hatch, rendezvous, destination tags, memo prefixes, lorca, private repo URLs' \
+          if rg -n -i 'bastion|escape-hatch|rendezvous|88421007|LIMITEDHYPE|lorca|limited-hype-station-escape-hatch' \
+              public/ CHARTER.md CONSTRAINTS.md README.md SCORE-ALIGN.md ALIGN-WORKFLOW.md CARETAKER.md FIELD-CONTRACT.md \
             | grep -v -F 'No hidden Lorca, trading, or procurement page on this brand surface.' \
             | grep .; then
             echo "forbidden token found"

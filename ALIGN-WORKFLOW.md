@@ -1,13 +1,10 @@
-# Bastion alignment — public station runbook
+# Public station runbook
 
 > Field-seed note (2026-09-14): adding the caretaker pack path to heartbeat `must_200` changed the heartbeat body, so `#meta` moved `947ef7` → `63e243` (timestamp unchanged: 2026-09-13T19:36:00Z).
 
 Date: 2026-09-14
-This file lives in the **public** repo on purpose. It is the half of the work that may be seen.
-
-The private half (beacon, rendezvous, transport) lives only in
-`NEETstuff/limited-hype-station-escape-hatch` as `BASTION-WORKFLOW.md`.
-Do not copy that file here.
+This file is the half of the work that may be seen on GitHub.
+Operator-only notes stay out of this tree. Do not copy them here.
 
 ## Visual contract for `/`
 
@@ -29,11 +26,11 @@ If a patch makes `/` look like a landing page, reject it.
 | 0 field | `public/index.html`, `field.js`, `field.css` | nothing |
 | 1 desk | `desk.html`, `llms.txt`, `CHARTER.md`, packs, cards | pointer, index, notary, coalition format, no wallet, no habitat |
 
-Layer 1 may talk about coalitions that form and leave. It may not name a hatch, a destination tag, a rendezvous, or the private repo.
+Layer 1 may talk about coalitions that form and leave. It may not name a private operator repository, a ledger tag, or a meeting path.
 
 ## Zed
 
-Open this repo in its **own** window. Do not add the private repo to the same agent context.
+Open this repo in its **own** window. Do not add a second private checkout to the same agent context.
 
 Paste this at the top of every public-repo chat:
 
@@ -41,8 +38,8 @@ Paste this at the top of every public-repo chat:
 This is Limited-Hype-Station, the public desk.
 
 / is generative art. Do not add DOM or copy to index.html.
-public/ must never mention bastion, sanctuary, escape hatch, rendezvous,
-destination tags, or the private hatch repo URL.
+public/ must never mention cover-story tokens, ledger tags,
+or any private operator repository URL.
 
 Desk language: pointer, index, notary, time-boxed ticket, coalition format.
 Compute and keys are brought by the operator or agent, never this host.
@@ -54,7 +51,7 @@ Existing tasks in `.zed/tasks.json`:
 - Station: localhost → `npm run dev` (http://localhost:4173)
 - Station: check local paths → `npm run check`
 
-## Public phases (detail in the private runbook)
+## Public phases
 
 0. Freeze the field. Screenshot localhost `/` against production.
 1A. Optional field.js constant extraction. Picture must stay identical.
@@ -63,21 +60,23 @@ Existing tasks in `.zed/tasks.json`:
 6. Optional notary-receipt schema. Keep `xrpl_notary: false` until a human posts a tx.
 7. Camouflage audit before any Vercel/DNS change.
 
-Phases 2–5 are private-repo only.
+Other phases live out of this tree.
 
 ## Forbidden on this tree
 
-- Linking `/beacon` or any hatch path from `public/`
+- Linking private paths from `public/`
 - Flipping heartbeat live flags to flatter a demo
 - Restyling the field
 - Committing secrets, tags, or memo prefixes into this repo
+- Naming a private operator repository on this tree
 
 ## Gate before you push
 
 ```bash
-rg -n -i 'bastion|sanctuary|escape-hatch|rendezvous|88421007|LIMITEDHYPE|lorca' public CHARTER.md CONSTRAINTS.md README.md || true
 npm run check
 ```
+
+Also rely on `.github/workflows/camouflage.yml`. Do not embed the token list in this file.
 
 `/` must still be a picture.
 

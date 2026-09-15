@@ -49,13 +49,8 @@ Pointer threshold: 6 CSS px. Movement at or below the threshold counts as a clic
 
 ## 7. Camouflage tokens (must not appear under public/)
 
-The following tokens must never appear anywhere under `public/` (file contents, names, or comments):
+Do not put cover-story tokens, ledger tags, or any private operator repository URL under `public/` (file contents, names, or comments).
 
-- bastion
-- sanctuary
-- escape hatch
-- rendezvous
-- destination tags
-- the private hatch repo URL
+The machine list lives in `.github/workflows/camouflage.yml`. Do not duplicate it here.
 
 Private implementation details live out of tree and must not leak into `public/`.
