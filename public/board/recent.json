@@ -1,0 +1,29 @@
+{
+  "updatedAt": "2026-09-15T20:30:00Z",
+  "receipts": [
+    {
+      "hash": "0x6b1c0e8f2a9d4c7e1b5a8d3f0c6e9b2a4d7f1c8e3b6a0d5f2c9e7b4a1d8f3c60",
+      "class": "summarize",
+      "band": "easy",
+      "completedAt": "2026-09-15T20:10:00Z",
+      "jobTemplateId": "job-001",
+      "anonymized": true
+    },
+    {
+      "hash": "0x11a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f80",
+      "class": "review",
+      "band": "medium",
+      "completedAt": "2026-09-15T19:40:00Z",
+      "jobTemplateId": "job-002",
+      "anonymized": true
+    },
+    {
+      "hash": "0x9f8e7d6c5b4a39281706f5e4d3c2b1a09e8d7c6b5a4938271605f4e3d2c1b0a9",
+      "class": "translate",
+      "band": "easy",
+      "completedAt": "2026-09-15T18:55:00Z",
+      "jobTemplateId": "job-001",
+      "anonymized": true
+    }
+  ]
+}

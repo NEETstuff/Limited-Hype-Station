@@ -1,0 +1,6 @@
+{
+  "edition": "dev",
+  "algorithm": "sha256",
+  "commitment": "204389e7c2795a8adc51dd074f28fe0b9b50da8819bf94066ae64761994ce84b",
+  "verify": "Holders recompute sha256(tag || memo_prefix || salt_v1). Salt is not this file."
+}
