@@ -8,5 +8,10 @@
   "paymentRequired": false,
   "ingressGranted": false,
   "nonce": null,
+  "amount": null,
+  "asset": null,
+  "network": null,
+  "payTo": null,
+  "scheme": null,
   "note": "Nonce is issued on a private listener. This file is the shape only."
 }
