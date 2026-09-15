@@ -19,6 +19,22 @@ canvas#field {
   width: 100%;
   height: 100%;
   display: block;
+  touch-action: none;
+}
+
+/* Unlabeled door over the star center. No visible text; JS positions it and
+   sizes it (min 44x44). The pointer machine owns the gesture. */
+#door {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+  display: block;
+  background: transparent;
+  touch-action: none;
+  z-index: 2;
 }
 
 /* Tiny monospace meta line, lower left, above the stripe. No glow, no card. */

@@ -1,41 +1,3 @@
-// djb2 — deterministic 32-bit seed. Seed string shape:
-//   updated_at (or "spec-only") +, for each fetched body that succeeded, "path":"djb2(body)"
-//   Same file bytes + same updated_at => same seed => same picture. No wall-clock.
-// Node paths mirror scripts/check-local.mjs / heartbeat.checks.must_200, in that order.
-const KNOWN_PATHS = [
-  "/",
-  "/desk.html",
-  "/handoff.html",
-  "/want-ad.html",
-  "/llms.txt",
-  "/llms-full.txt",
-  "/robots.txt",
-  "/sitemap.xml",
-  "/heartbeat.json",
-  "/.well-known/agent-card.json",
-  "/.well-known/agent.json",
-  "/.well-known/mcp/server-card.json",
-  "/ai-catalog.json",
-  "/packs/index.json",
-  "/packs/no-spend-v1.json",
-  "/packs/no-secrets-v1.json",
-  "/packs/expire-72h-v1.json",
-];
-
-// Explicit fetch-next edges from station copy. Drawn faintly (no arrows/labels);
-// an edge only renders when both endpoints are in KNOWN_PATHS.
-const FETCH_NEXT_GRAPH = [
-  ["/", "/llms.txt"],
-  ["/llms.txt", "/llms-full.txt"],
-  ["/llms.txt", "/heartbeat.json"],
-  ["/llms.txt", "/.well-known/agent-card.json"],
-  ["/handoff.html", "/llms.txt"],
-  ["/want-ad.html", "/llms.txt"],
-  ["/desk.html", "/llms.txt"],
-  ["/ai-catalog.json", "/llms.txt"],
-  ["/packs/index.json", "/ai-catalog.json"],
-];
-
 const canvas = document.getElementById("field");
 const metaEl = document.getElementById("meta");
 const stripeEl = document.getElementById("stripe");
@@ -44,81 +6,34 @@ const stripeEl = document.getElementById("stripe");
 let currentBits = [0, 0, 0];
 let stripeCanvas = null;
 
-function djb2(str) {
-  let h = 5381;
-  for (let i = 0; i < str.length; i++) {
-    h = ((h * 33) ^ str.charCodeAt(i)) & 0xffffffff;
-  }
-  return h;
-}
-
-// mulberry32 — tiny deterministic PRNG seeded from the 32-bit djb2 value.
-function mulberry32(seed) {
-  let state = seed & 0xffffffff;
-  return function () {
-    state = (state + 0x6d2b79f5) & 0xffffffff;
-    let z = state;
-    z = ((z ^ (z >> 15)) * 0x2c1b3c6d) & 0xffffffff;
-    z = ((z ^ (z >> 12)) * 0x297a2d39) & 0xffffffff;
-    z = (z ^ (z >> 15)) & 0xffffffff;
-    return z / 4294967296;
-  };
-}
-
-// Expand the 32-bit seed into n deterministic bytes (xorshift32). Used to drive
-// the bishop: 2 bits per diagonal step from these bytes, like an OpenSSH key
-// fingerprint. Same seed ==> same bytes ==> same path. No wall-clock.
-function seedBytes(seed, n) {
-  const out = new Uint8Array(n);
-  let s = seed & 0xffffffff;
-  for (let i = 0; i < n; i++) {
-    s ^= (s << 13) & 0xffffffff;
-    s &= 0xffffffff;
-    s ^= s >> 17;
-    s ^= (s << 5) & 0xffffffff;
-    s &= 0xffffffff;
-    out[i] = s & 0xff;
-  }
-  return out;
-}
-
-// Field geometry: 32x48 drunk-walk cells, chords jump by 5 nodes.
-// STEPS = bishop walk length: 256 seed bits / 2 bits per step (OpenSSH randomart).
-const COLS = 32;
-const ROWS = 48;
-const STEPS = 128;
-const CHORD_STEP = 5;
-
-// Files whose bytes feed the seed (each hashed as text; failures are skipped).
-// Heartbeat JSON is included both for updated_at and its body hash.
-const SEED_FETCHES = [
-  "/heartbeat.json",
-  "/llms.txt",
-  "/llms-full.txt",
-  "/.well-known/agent-card.json",
-  "/robots.txt",
-  "/packs/index.json",
-  "/packs/no-spend-v1.json",
-  "/packs/no-secrets-v1.json",
-  "/packs/expire-72h-v1.json",
-  "/ai-catalog.json",
-];
-
 let seed;
 
-// Offscreen cache of the static plate (grid + baker-bishop + both chord layers).
-// Rebuilt only on resize; the rAF loop composites it and paints the scanline on top.
-let plateCanvas = null;
+// Offscreen caches: bishopPlate holds grid + bishop walk; starPlate holds
+// star + fetch-next edges + nodes. Rebuilt only on resize; the rAF loop
+// composites both and paints the scanline on top.
+let bishopPlate = null;
+let starPlate = null;
 let plateW = 0;
 let plateH = 0;
 let iconCanvas = null;
+
+// Plate geometry in CSS px, refreshed on each renderPlate. Consumed by the
+// pointer machine (FieldView) to place the door and hit-test the hottest cell.
+// Never feeds back into the seed, plates, or currentBits.
+let plateGeom = null;
+
+// Track A painters accent — never feeds back into the seed or plate geometry.
+// accentRGB is the exact 6-hex prefix6 -> rgb, used for the hottest cells;
+// lightAccentRGB is a lightened prefix6 for the stripe on-slots. Both are
+// derived once from the value already painted into #meta.
+let accentRGB = "200,220,255";
+let lightAccentRGB = "230,230,230";
 
 // Scanline: one 1px horizontal line, rgba(255,255,255,0.12). Only motion on the plate.
 const SCAN_PERIOD_MS = 25000; // ~1 viewport height per 25s
 const reducedMotion =
   typeof window.matchMedia === "function" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-let animStart = null;
 let scanY = 0;
 
 // 32x32 tab icon: the same 32x48 bishop visit grid, downsampled to 1px cells,
@@ -132,13 +47,13 @@ function renderIcon(cells) {
   ictx.fillStyle = "#050505";
   ictx.fillRect(0, 0, 32, 32);
   ictx.fillStyle = "#c8c8c8";
-  for (let r = 0; r < ROWS; r++) {
-    for (let c = 0; c < COLS; c++) {
+  for (let r = 0; r < FieldSeed.ROWS; r++) {
+    for (let c = 0; c < FieldSeed.COLS; c++) {
       if (!cells[r] || !cells[r][c]) continue;
-      const x = Math.floor((c * 32) / COLS);
-      const y = Math.floor((r * 32) / ROWS);
-      const x2 = Math.floor(((c + 1) * 32) / COLS);
-      const y2 = Math.floor(((r + 1) * 32) / ROWS);
+      const x = Math.floor((c * 32) / FieldSeed.COLS);
+      const y = Math.floor((r * 32) / FieldSeed.ROWS);
+      const x2 = Math.floor(((c + 1) * 32) / FieldSeed.COLS);
+      const y2 = Math.floor(((r + 1) * 32) / FieldSeed.ROWS);
       ictx.fillRect(x, y, Math.max(1, x2 - x), Math.max(1, y2 - y));
     }
   }
@@ -153,14 +68,17 @@ function renderPlate() {
   const H = window.innerHeight || 600;
   plateW = W;
   plateH = H;
-  if (!plateCanvas) plateCanvas = document.createElement("canvas");
-  plateCanvas.width = Math.round(W * dpr);
-  plateCanvas.height = Math.round(H * dpr);
+  if (!bishopPlate) bishopPlate = document.createElement("canvas");
+  if (!starPlate) starPlate = document.createElement("canvas");
+  bishopPlate.width = Math.round(W * dpr);
+  bishopPlate.height = Math.round(H * dpr);
+  starPlate.width = Math.round(W * dpr);
+  starPlate.height = Math.round(H * dpr);
   canvas.width = Math.round(W * dpr);
   canvas.height = Math.round(H * dpr);
   canvas.style.width = W + "px";
   canvas.style.height = H + "px";
-  const ctx = plateCanvas.getContext("2d");
+  const ctx = bishopPlate.getContext("2d");
   ctx.save();
   ctx.scale(dpr, dpr);
   ctx.fillStyle = "#050505";
@@ -183,115 +101,221 @@ function renderPlate() {
 
   // (b) drunken-bishop walk driven by 32 bytes of the seed (OpenSSH randomart).
   // 32 bytes -> 256 bits -> STEPS=128 diagonal moves, 2 bits each, with edge
-  // reflection. A short path, so the fingerprint reads as a cloud across the
-  // middle of the band, never a right-edge stack. One rectangle per visited
-  // cell; size and alpha rise with visit count. No fillText, no second copy.
+  // reflection. Track A paint: visit-count glyphs (hairline tick / square /
+  // diamond); only the hottest cells take their fill from the 6-hex prefix
+  // shown in #meta, everything else stays graphite. A second, faint walk (a
+  // different seedBytes slice at ~0.06 alpha) bridges the same grid. No
+  // fillText, no particles.
   const bandTop = H * 0.45;
-  const cellW = W / COLS;
-  const cellH = (H * 0.55) / ROWS;
-  const cells = [];
-  for (let r = 0; r < ROWS; r++) cells.push(new Array(COLS).fill(0));
-  {
-    const dxs = [1, 1, -1, -1];
-    const dys = [-1, 1, 1, -1];
-    let bx = Math.floor(COLS / 2);
-    let by = Math.floor(ROWS / 2);
-    cells[by][bx] = 1;
-    const bishopBytes = seedBytes(seed, STEPS / 4); // 32 bytes for 128 steps
-    for (let s = 0; s < STEPS; s++) {
-      const d = (bishopBytes[s >> 2] >> ((s & 3) * 2)) & 3;
-      bx += dxs[d];
-      by += dys[d];
+  let hotCellGeom = null;
+  const cellW = W / FieldSeed.COLS;
+  const cellH = (H * 0.55) / FieldSeed.ROWS;
+  const dxs = [1, 1, -1, -1];
+  const dys = [-1, 1, 1, -1];
+  const midR = Math.floor(FieldSeed.ROWS / 2);
+  const midC = Math.floor(FieldSeed.COLS / 2);
+  // One shared drunken-bishop step machine (2 bits/step, edge reflection).
+  function runWalk(bytes, startR, startC) {
+    const w = [];
+    for (let r = 0; r < FieldSeed.ROWS; r++) w.push(new Array(FieldSeed.COLS).fill(0));
+    w[startR][startC] = 1;
+    let r0 = startR;
+    let c0 = startC;
+    for (let s = 0; s < FieldSeed.STEPS; s++) {
+      const d = (bytes[s >> 2] >> ((s & 3) * 2)) & 3;
+      let bx = c0 + dxs[d];
+      let by = r0 + dys[d];
       // Reflect at edges (OpenSSH drunken bishop): never clamp-and-stick.
       if (bx < 0) bx = -bx;
-      else if (bx >= COLS) bx = 2 * (COLS - 1) - bx;
+      else if (bx >= FieldSeed.COLS) bx = 2 * (FieldSeed.COLS - 1) - bx;
       if (by < 0) by = -by;
-      else if (by >= ROWS) by = 2 * (ROWS - 1) - by;
-      cells[by][bx]++;
+      else if (by >= FieldSeed.ROWS) by = 2 * (FieldSeed.ROWS - 1) - by;
+      w[by][bx]++;
+      c0 = bx;
+      r0 = by;
     }
     let maxVis = 0;
-    for (let r = 0; r < ROWS; r++) {
-      for (let c = 0; c < COLS; c++) if (cells[r][c] > maxVis) maxVis = cells[r][c];
-    }
-    const cellMin = Math.min(cellW, cellH);
-    for (let r = 0; r < ROWS; r++) {
-      for (let c = 0; c < COLS; c++) {
-        const n = cells[r][c];
-        if (!n) continue;
-        const t = n / maxVis; // 0..1 by visit count
-        const size = Math.max(4, cellMin * (0.35 + 0.55 * t)); // 35% -> 90%, min 4 CSS px
-        const alpha = 0.35 + 0.55 * t; // 0.35 -> 0.9
-        ctx.fillStyle = "rgba(200,200,200," + alpha.toFixed(3) + ")";
-        ctx.fillRect(
-          (c + 0.5) * cellW - size / 2,
-          bandTop + (r + 0.5) * cellH - size / 2,
-          size,
-          size
-        );
+    let hotR = r0;
+    let hotC = c0;
+    for (let r = 0; r < FieldSeed.ROWS; r++) {
+      for (let c = 0; c < FieldSeed.COLS; c++) {
+        if (w[r][c] > maxVis) {
+          maxVis = w[r][c];
+          hotR = r;
+          hotC = c;
+        }
       }
     }
-    renderIcon(cells); // bake the favicon once per plate build
+    return { cells: w, maxVis: maxVis, hotR: hotR, hotC: hotC };
+  }
+  const bishopBytes = FieldSeed.seedBytes(seed, FieldSeed.STEPS / 4); // 32 bytes for 128 steps
+  const walk1 = runWalk(bishopBytes, midR, midC);
+  const cells = walk1.cells;
+  const maxVis = walk1.maxVis || 1;
+  const cellMin = Math.min(cellW, cellH);
+  // Hottest bishop cell center in CSS px (same mapping as the drawn glyphs).
+  hotCellGeom = {
+    hotX: (walk1.hotC + 0.5) * cellW,
+    hotY: bandTop + (walk1.hotR + 0.5) * cellH,
+    cellMin: cellMin,
+  };
+
+  // Second walk: a different seedBytes slice (bytes 32..63 of a 64-byte draw)
+  // over the same 32x48 grid, faint (~0.06 alpha) graphite tracer beneath the
+  // glyphs. No Perlin, no particles.
+  const extraBytes = FieldSeed.seedBytes(seed, FieldSeed.STEPS / 2); // 64 bytes
+  const walk2Bytes = extraBytes.slice(FieldSeed.STEPS / 4); // bytes 32..63
+  const walk2 = runWalk(walk2Bytes, midR + 2, midC + 1);
+  const w2max = walk2.maxVis || 1;
+  ctx.fillStyle = "rgba(185,185,185,0.06)";
+  for (let r = 0; r < FieldSeed.ROWS; r++) {
+    for (let c = 0; c < FieldSeed.COLS; c++) {
+      const n = walk2.cells[r][c];
+      if (!n) continue;
+      const s2 = Math.max(2, cellMin * (0.35 + 0.5 * (n / w2max)) * 0.8);
+      ctx.fillRect((c + 0.5) * cellW - s2 / 2, bandTop + (r + 0.5) * cellH - s2 / 2, s2, s2);
+    }
   }
 
+  // Primary glyphs: hairline tick (low), square (mid), diamond (high). Hottest
+  // cells fill from prefix6's exact rgb; everything else stays graphite.
+  for (let r = 0; r < FieldSeed.ROWS; r++) {
+    for (let c = 0; c < FieldSeed.COLS; c++) {
+      const n = cells[r][c];
+      if (!n) continue;
+      const t = n / maxVis; // 0..1 by visit count
+      const isHot = t >= 0.999;
+      const size = Math.max(3, cellMin * (0.3 + 0.45 * t));
+      const gx = (c + 0.5) * cellW;
+      const gy = bandTop + (r + 0.5) * cellH;
+      const col = isHot ? accentRGB : "190,190,190";
+      const alpha = isHot ? 0.95 : 0.3 + 0.5 * t;
+      ctx.fillStyle = "rgba(" + col + "," + alpha.toFixed(3) + ")";
+      if (t < 1 / 3) {
+        ctx.fillRect(gx - 0.5, gy - size / 2, 1, size); // hairline tick
+      } else if (t < 2 / 3) {
+        ctx.fillRect(gx - size / 2, gy - size / 2, size, size); // square
+      } else {
+        ctx.beginPath(); // diamond
+        ctx.moveTo(gx, gy - size / 2);
+        ctx.lineTo(gx + size / 2, gy);
+        ctx.lineTo(gx, gy + size / 2);
+        ctx.lineTo(gx - size / 2, gy);
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+  }
+  renderIcon(cells); // bake the favicon once per plate build
+
   // (c) N nodes on a small circle centered in the upper 40%.
-  const N = KNOWN_PATHS.length;
+  ctx.restore();
+  const sctx = starPlate.getContext("2d");
+  sctx.save();
+  sctx.scale(dpr, dpr);
+  sctx.clearRect(0, 0, W, H);
+  const N = FieldSeed.KNOWN_PATHS.length;
   const nodepos = new Map();
-  KNOWN_PATHS.forEach((p, i) => nodepos.set(p, i));
+  FieldSeed.KNOWN_PATHS.forEach((p, i) => nodepos.set(p, i));
   const cx = W * 0.5;
   const cy = H * 0.2;
   const R = Math.min(W, H) * 0.22;
+  // Star-center (door target) + hottest bishop cell, both in CSS px.
+  plateGeom = {
+    starX: cx,
+    starY: cy,
+    hotX: hotCellGeom ? hotCellGeom.hotX : cx,
+    hotY: hotCellGeom ? hotCellGeom.hotY : cy,
+    cellMin: hotCellGeom ? hotCellGeom.cellMin : 44,
+  };
+  if (typeof FieldView !== "undefined") FieldView.syncLayout();
   const nodes = [];
   for (let i = 0; i < N; i++) {
     const a = (i / N) * Math.PI * 2 - Math.PI / 2;
     nodes.push({ x: cx + R * Math.cos(a), y: cy + R * Math.sin(a) });
   }
-  // (d) modulus star, kept: i -> (i * CHORD_STEP) mod N
-  ctx.strokeStyle = "rgba(230,230,230,0.35)";
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  for (let i = 0; i < N; i++) {
-    const j = (i * CHORD_STEP) % N;
-    ctx.moveTo(nodes[i].x, nodes[i].y);
-    ctx.lineTo(nodes[j].x, nodes[j].y);
+  // (d) modulus star as shallow-arc chords, i -> (i * CHORD_STEP) mod N
+  const bulge = Math.min(W, H) * 0.035;
+  function arcBetween(a, b) {
+    const mx = (a.x + b.x) / 2;
+    const my = (a.y + b.y) / 2;
+    let dx = mx - cx;
+    let dy = my - cy;
+    const len = Math.hypot(dx, dy) || 1;
+    let px = mx + (dx / len) * bulge;
+    let py = my + (dy / len) * bulge;
+    sctx.moveTo(a.x, a.y);
+    sctx.quadraticCurveTo(px, py, b.x, b.y);
   }
-  ctx.stroke();
-  // (e) explicit fetch-next edges, kept and fainter than the modulus star
-  ctx.strokeStyle = "rgba(200,200,200,0.14)";
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  for (const [a, b] of FETCH_NEXT_GRAPH) {
+  sctx.strokeStyle = "rgba(230,230,230,0.35)";
+  sctx.lineWidth = 1;
+  sctx.beginPath();
+  for (let i = 0; i < N; i++) {
+    const j = (i * FieldSeed.CHORD_STEP) % N;
+    if (j === i) continue;
+    arcBetween(nodes[i], nodes[j]);
+  }
+  sctx.stroke();
+  // (e) fetch-next edges: same shallow-arc language, fainter than the modulus star
+  sctx.strokeStyle = "rgba(200,200,200,0.12)";
+  sctx.lineWidth = 1;
+  sctx.beginPath();
+  for (const [a, b] of FieldSeed.FETCH_NEXT_GRAPH) {
     if (!nodepos.has(a) || !nodepos.has(b)) continue;
-    ctx.moveTo(nodes[nodepos.get(a)].x, nodes[nodepos.get(a)].y);
-    ctx.lineTo(nodes[nodepos.get(b)].x, nodes[nodepos.get(b)].y);
+    arcBetween(nodes[nodepos.get(a)], nodes[nodepos.get(b)]);
   }
-  ctx.stroke();
-  ctx.fillStyle = "rgba(240,240,240,0.75)";
+  sctx.stroke();
+  sctx.fillStyle = "rgba(240,240,240,0.75)";
   for (let i = 0; i < N; i++) {
-    ctx.beginPath();
-    ctx.arc(nodes[i].x, nodes[i].y, 2.2, 0, Math.PI * 2);
-    ctx.fill();
+    sctx.beginPath();
+    sctx.arc(nodes[i].x, nodes[i].y, 2.2, 0, Math.PI * 2);
+    sctx.fill();
   }
-  ctx.restore();
+  sctx.restore();
 }
 
-// Composite the cached plate, then paint the single scanline on top.
+// Composite cached plates with the FieldView view transform, then paint the
+// single scanline on top. Identity (yaw=pitch=px=py=0) skips the transform so
+// output is byte-identical to the cached plates.
 function composite() {
-  if (!plateCanvas) return;
+  if (!bishopPlate || !starPlate) return;
   const dpr = window.devicePixelRatio || 1;
   const ctx = canvas.getContext("2d");
   ctx.save();
   ctx.scale(dpr, dpr);
-  ctx.drawImage(plateCanvas, 0, 0, plateW, plateH);
+  const vt =
+    typeof FieldView !== "undefined"
+      ? FieldView.getViewTransform()
+      : { yaw: 0, pitch: 0, px: 0, py: 0 };
+  const zero =
+    vt.yaw === 0 && vt.pitch === 0 && vt.px === 0 && vt.py === 0;
+  if (!zero) {
+    // Slight 2D tilt around viewport center to fake yaw/pitch orbit.
+    // At identity this branch is skipped -> exact pixel match with plates.
+    const cx = plateW / 2;
+    const cy = plateH / 2;
+    // Narrow the orbit margin so edges stay inside the plate.
+    const sx = 1 - Math.abs(vt.yaw) * 0.0015;
+    const sy = 1 - Math.abs(vt.pitch) * 0.0015;
+    ctx.translate(cx, cy);
+    ctx.scale(sx, sy);
+    ctx.translate(-cx + vt.yaw * 0.4, -cy + vt.pitch * 0.4);
+  }
+  ctx.drawImage(bishopPlate, 0, 0, plateW, plateH);
+  if (!zero) {
+    // Parallax: star plate shifts by a few more CSS px than the bishop plate.
+    ctx.save();
+    ctx.translate(vt.px, vt.py);
+  }
+  ctx.drawImage(starPlate, 0, 0, plateW, plateH);
+  if (!zero) ctx.restore();
   ctx.fillStyle = "rgba(255,255,255,0.12)";
   ctx.fillRect(0, scanY, plateW, 1);
   ctx.restore();
 }
 
 function frame(ts) {
-  if (animStart === null) animStart = ts;
-  const elapsed = ts - animStart;
-  const progress = (elapsed / SCAN_PERIOD_MS) % 1;
-  scanY = progress * (window.innerHeight || 600);
+  scanY = FieldView.getScan(ts, window.innerHeight || 600);
   composite();
   requestAnimationFrame(frame);
 }
@@ -299,11 +323,10 @@ function frame(ts) {
 // Reduced motion: draw the line once at mid-height, no rAF loop.
 function startScanline() {
   if (reducedMotion) {
-    scanY = (window.innerHeight || 600) / 2;
+    scanY = FieldView.getScan(0, window.innerHeight || 600);
     composite();
     return;
   }
-  animStart = null;
   requestAnimationFrame(frame);
 }
 
@@ -327,7 +350,7 @@ function renderStripe() {
   ctx.scale(dpr, dpr);
   ctx.clearRect(0, 0, W, Hbar);
 
-  const rand = mulberry32(seed ^ 0x5154);
+  const rand = FieldSeed.mulberry32(seed ^ 0x5154);
 
   // Quiet filler: a barcode of many thin vertical ticks across the full width,
   // bottom-anchored, translucent gray, heights/opacity rolling off the seed.
@@ -342,16 +365,19 @@ function renderStripe() {
     x += tickW + tickGap;
   }
 
-  // Three tall bit bars: mcp | store | xrpl. Still 000 -> three solid dark
-  // full-height bars, clearly taller and denser than the filler ticks.
+  // Three tall status slots: mcp | store | xrpl. Taller than the filler, with a
+  // clean void gap when off and the prefix6-derived light accent when on.
   const slots = 3;
-  const slotW = 6; // CSS px, full height
+  const slotW = 8; // CSS px, full height — clearly taller than filler ticks
   const span = W - slotW;
   for (let k = 0; k < slots; k++) {
     const on = currentBits[k] === 1;
     const bx = (span / slots) * (k + 0.5) - slotW / 2;
-    ctx.fillStyle = on ? "#e2e2e2" : "#0f0f0f";
-    ctx.fillRect(bx, 0, slotW, Hbar);
+    ctx.clearRect(bx, 0, slotW, Hbar); // off = void
+    if (on) {
+      ctx.fillStyle = "rgba(" + lightAccentRGB + ",0.95)";
+      ctx.fillRect(bx, 0, slotW, Hbar);
+    }
   }
   ctx.restore();
 }
@@ -361,7 +387,7 @@ async function main() {
   let hbData = null;
   const hashedParts = [];
 
-  for (const p of SEED_FETCHES) {
+  for (const p of FieldSeed.SEED_FETCHES) {
     try {
       const res = await fetch(p);
       if (!res.ok) continue;
@@ -375,36 +401,56 @@ async function main() {
           // malformed heartbeat: still hash the body, leave updatedAt null
         }
       }
-      hashedParts.push(p + ":" + djb2(body));
+      hashedParts.push(p + ":" + FieldSeed.djb2(body));
     } catch (e) {
       // ignore individual failures; skip this file's contribution
     }
   }
 
+  const seedStr = FieldSeed.buildSeedString(updatedAt, hashedParts);
   const when = updatedAt || "spec-only";
-  const seedStr = when + hashedParts.join("");
-  seed = djb2(seedStr);
+  seed = FieldSeed.djb2(seedStr);
   const prefix6 = ("000000" + (seed & 0xffffff).toString(16)).slice(-6);
 
   metaEl.textContent = prefix6 + " " + when;
 
+  // Track A accent from the same prefix6 already shown in #meta: exact rgb for
+  // hottest cells, lightened for the stripe on-slots. Paint-only, no seed input.
+  const pr = parseInt(prefix6.slice(0, 2), 16);
+  const pg = parseInt(prefix6.slice(2, 4), 16);
+  const pb = parseInt(prefix6.slice(4, 6), 16);
+  accentRGB = pr + "," + pg + "," + pb;
+  const lmix = 0.72;
+  lightAccentRGB =
+    Math.round(pr + (255 - pr) * lmix) + "," +
+    Math.round(pg + (255 - pg) * lmix) + "," +
+    Math.round(pb + (255 - pb) * lmix);
+
   // Status bits: live_mcp as any non-empty string URL (null/absent -> 0);
   // live_ticket_store and xrpl_notary as booleans. Absent heartbeat -> all 0.
-  currentBits = [
-    (hbData && typeof hbData.live_mcp === "string" && hbData.live_mcp.length > 0) ? 1 : 0,
-    (hbData && hbData.live_ticket_store === true) ? 1 : 0,
-    (hbData && hbData.xrpl_notary === true) ? 1 : 0,
-  ];
+  currentBits = FieldSeed.bitsFromHeartbeat(hbData);
 
   renderPlate();
   renderStripe();
+  if (typeof FieldView !== "undefined") {
+    FieldView.init({
+      canvas: canvas,
+      door: document.getElementById("door"),
+      scanPeriodMs: SCAN_PERIOD_MS,
+      reducedMotion: reducedMotion,
+      getGeometry: function () {
+        return plateGeom;
+      },
+    });
+  }
   startScanline();
 }
 
 window.addEventListener("resize", () => {
   renderPlate();
   renderStripe();
-  if (reducedMotion) scanY = (window.innerHeight || 600) / 2;
+  if (typeof FieldView !== "undefined") FieldView.syncLayout();
+  if (reducedMotion) scanY = FieldView.getScan(0, window.innerHeight || 600);
   composite();
 });
 main();

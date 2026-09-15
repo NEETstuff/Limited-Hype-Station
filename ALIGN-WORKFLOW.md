@@ -87,3 +87,11 @@ npm run check
 2026-09-14  e915bd  2026-09-14T22:29:19Z  (production DOM)
 
 caretaker-neutral-v1 is listed in packs/index.json and heartbeat must_200 and scripts/check-local.mjs; it is NOT in field.js SEED_FETCHES, so adding the pack did not by itself change the bishop cloud (the heartbeat timestamp edit did).
+
+## Field v1.1 material (plate only, no seed change)
+
+- `/` stays wordless. No landing-page copy.
+- Seed math unchanged. Do not add paths to SEED_FETCHES in the same commit as painters.
+- Allowed material: visit-count glyphs (tick / square / diamond), accent from prefix6 on hottest cells only, second walk from a different seedBytes slice at alpha ~0.06, shallow-arc chords, stripe slot language.
+- After v1.1 ships, replace the golden idle screenshot.
+- Track B identity rule becomes: identity view == v1.1 plate.

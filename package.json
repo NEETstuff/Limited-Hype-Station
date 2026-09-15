@@ -7,7 +7,8 @@
     "dev": "npx --yes serve public -l 4173 --no-clipboard",
     "dev:alt": "npx --yes serve public -l ${PORT:-4174} --no-clipboard",
     "check": "node scripts/check-local.mjs",
-    "lint:handoff": "node scripts/lint-handoff.mjs"
+    "lint:handoff": "node scripts/lint-handoff.mjs",
+    "test:field-seed": "node scripts/field-seed.test.mjs"
   },
   "engines": {
     "node": ">=18"
