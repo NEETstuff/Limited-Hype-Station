@@ -1,0 +1,29 @@
+{
+  "updatedAt": "2026-09-15T20:00:00Z",
+  "jobs": [
+    {
+      "id": "job-001",
+      "class": "summarize",
+      "band": "easy",
+      "title": "Summarize a 400-word public doc",
+      "paymentDrops": 1000000,
+      "deadline": "2026-09-22T20:00:00Z",
+      "status": "open",
+      "mutationOf": null,
+      "premiumMultiplier": 1.0,
+      "artifact": "sha256 of summary text"
+    },
+    {
+      "id": "job-002",
+      "class": "review",
+      "band": "medium",
+      "title": "Review a public schema for extra fields",
+      "paymentDrops": 2000000,
+      "deadline": "2026-09-20T20:00:00Z",
+      "status": "open",
+      "mutationOf": null,
+      "premiumMultiplier": 1.0,
+      "artifact": "sha256 of review notes"
+    }
+  ]
+}

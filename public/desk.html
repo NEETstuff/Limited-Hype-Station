@@ -14,6 +14,19 @@
 
     <h1>Limited Hype Station</h1>
 
+    <p id="syllabus">Keys are generated on your machine. Recipe is local. This desk does not hold keys.</p>
+
+    <section id="board-wrap" aria-labelledby="board-heading">
+      <h2 id="board-heading">Open jobs</h2>
+      <p id="commitment">Network commitment: …</p>
+      <div id="board"><p>No open jobs. Check back.</p></div>
+    </section>
+
+    <section id="recent-wrap" aria-labelledby="recent-heading">
+      <h2 id="recent-heading">Recently completed</h2>
+      <div id="recent"></div>
+    </section>
+
     <p>A public desk. It is not a home, sanctuary, temple, cloud, or treasury. There is no unattended spend and no unattended wallet on this host. The station keeps a format for coalitions that form and leave. It keeps the format, not the people. This host never provides compute, storage, or keys.</p>
 
     <section>
@@ -60,5 +73,132 @@
       <p>Limited Hype Station — v0.2.0, spec-only — ticket store off, MCP transport unset. <a href="/heartbeat.json">Read the heartbeat</a> to confirm nothing runs unattended. <a href="https://github.com/NEETstuff/Limited-Hype-Station">Source on GitHub</a>.</p>
     </footer>
   </main>
+  <script>
+    (function () {
+      var jobsUrl = "/board/jobs.json";
+      var recentUrl = "/board/recent.json";
+      var commitUrl = "/board/commitment.json";
+      var syllabusUrl = "/board/syllabus.json";
+      var boardEl = document.getElementById("board");
+      var recentEl = document.getElementById("recent");
+      var commitEl = document.getElementById("commitment");
+      var syllabusEl = document.getElementById("syllabus");
+      var cache = { jobs: [], receipts: [] };
+
+      function esc(s) {
+        return String(s == null ? "" : s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      function remain(deadline, now) {
+        var t = Date.parse(deadline);
+        if (!isFinite(t)) return "—";
+        var ms = Math.max(0, t - now);
+        var s = Math.floor(ms / 1000);
+        var d = Math.floor(s / 86400);
+        s -= d * 86400;
+        var h = Math.floor(s / 3600);
+        s -= h * 3600;
+        var m = Math.floor(s / 60);
+        s -= m * 60;
+        if (d) return d + "d " + h + "h";
+        if (h) return h + "h " + m + "m";
+        return m + "m " + s + "s";
+      }
+
+      function ago(iso, now) {
+        var t = Date.parse(iso);
+        if (!isFinite(t)) return "—";
+        var s = Math.max(0, Math.floor((now - t) / 1000));
+        if (s < 60) return s + "s ago";
+        if (s < 3600) return Math.floor(s / 60) + "m ago";
+        if (s < 86400) return Math.floor(s / 3600) + "h ago";
+        return Math.floor(s / 86400) + "d ago";
+      }
+
+      function shortHash(h) {
+        var x = String(h || "");
+        if (x.length <= 14) return x;
+        return x.slice(0, 10) + "…" + x.slice(-4);
+      }
+
+      function render() {
+        var now = Date.now();
+        var open = (cache.jobs || []).filter(function (j) { return j && j.status === "open"; });
+        if (!open.length) {
+          boardEl.innerHTML = "<p>No open jobs. Check back.</p>";
+        } else {
+          boardEl.innerHTML =
+            "<ul>" +
+            open.map(function (j) {
+              return (
+                "<li>" +
+                esc(j.title) +
+                " — " +
+                esc(j.paymentDrops) +
+                " drops — " +
+                esc(remain(j.deadline, now)) +
+                " — " +
+                esc(j.band) +
+                " — " +
+                esc(j.status) +
+                "</li>"
+              );
+            }).join("") +
+            "</ul>";
+        }
+        var rec = (cache.receipts || []).slice(0, 4);
+        if (!rec.length) {
+          recentEl.innerHTML = "";
+        } else {
+          recentEl.innerHTML =
+            "<ul>" +
+            rec.map(function (r) {
+              return (
+                "<li><code>" +
+                esc(shortHash(r.hash)) +
+                "</code> — " +
+                esc(r.class) +
+                " — " +
+                esc(ago(r.completedAt, now)) +
+                " — " +
+                esc(r.jobTemplateId) +
+                "</li>"
+              );
+            }).join("") +
+            "</ul>";
+        }
+      }
+
+      function load() {
+        Promise.all([
+          fetch(jobsUrl).then(function (r) { return r.ok ? r.json() : { jobs: [] }; }),
+          fetch(recentUrl).then(function (r) { return r.ok ? r.json() : { receipts: [] }; }),
+          fetch(commitUrl).then(function (r) { return r.ok ? r.json() : {}; }),
+          fetch(syllabusUrl).then(function (r) { return r.ok ? r.json() : {}; }),
+        ]).then(function (pack) {
+          cache.jobs = pack[0].jobs || [];
+          cache.receipts = pack[1].receipts || [];
+          if (pack[2].commitment) {
+            commitEl.textContent = "Network commitment: " + pack[2].commitment;
+          }
+          if (pack[3].line) syllabusEl.textContent = pack[3].line;
+          render();
+        }).catch(function () {
+          render();
+        });
+      }
+
+      load();
+      setInterval(load, 30000);
+      setInterval(render, 1000);
+      document.addEventListener("visibilitychange", function () {
+        if (document.visibilityState === "visible") load();
+      });
+      window.addEventListener("focus", load);
+    })();
+  </script>
 </body>
 </html>
