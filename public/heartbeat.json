@@ -41,7 +41,10 @@
       "/.well-known/ai-catalog.json",
       "/favicon.svg",
       "/marks.json",
-      "/marks/schema.json"
+      "/marks/schema.json",
+      "/board/jobs.json",
+      "/board/recent.json",
+      "/board/commitment.json"
     ]
   }
 }

@@ -31,6 +31,9 @@ const paths = [
   "/favicon.svg",
   "/marks.json",
   "/marks/schema.json",
+  "/board/jobs.json",
+  "/board/recent.json",
+  "/board/commitment.json",
 ];
 
 const failures = [];
