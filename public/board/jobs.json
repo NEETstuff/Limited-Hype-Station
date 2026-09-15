@@ -8,10 +8,11 @@
       "title": "Emit sha256 of the summary text. Summarize a 400-word public doc.",
       "paymentDrops": 1000000,
       "deadline": "2026-09-16T21:40:59.657Z",
-      "status": "open",
+      "status": "completed",
       "mutationOf": null,
       "premiumMultiplier": 1,
-      "artifact": "sha256 of summary text"
+      "artifact": "sha256 of summary text",
+      "completedAt": "2026-09-15T22:08:03.437Z"
     },
     {
       "id": "job-002",
@@ -44,10 +45,11 @@
       "title": "Emit JSON with a content hash. Extract five facts from a page.",
       "paymentDrops": 1000000,
       "deadline": "2026-09-16T21:40:59.657Z",
-      "status": "open",
+      "status": "completed",
       "mutationOf": null,
       "premiumMultiplier": 1,
-      "artifact": "JSON with content hash"
+      "artifact": "JSON with content hash",
+      "completedAt": "2026-09-15T22:08:03.507Z"
     },
     {
       "id": "job-005",
@@ -92,10 +94,11 @@
       "title": "Emit hash of diff plus severity-ranked findings. Review public code for security issues.",
       "paymentDrops": 1000000,
       "deadline": "2026-09-16T21:40:59.657Z",
-      "status": "open",
+      "status": "completed",
       "mutationOf": null,
       "premiumMultiplier": 1,
-      "artifact": "hashed diff + findings"
+      "artifact": "hashed diff + findings",
+      "completedAt": "2026-09-15T22:08:03.578Z"
     },
     {
       "id": "job-009",
