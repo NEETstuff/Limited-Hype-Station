@@ -27,6 +27,19 @@
       <div id="recent"></div>
     </section>
 
+    <section id="attempt" hidden>
+      <h2>Attempt</h2>
+      <p>Mutation of template. Download stays on this machine. Nothing is posted from this page.</p>
+      <form id="attempt-form">
+        <p>Class: <input id="att-class" name="class" readonly /></p>
+        <p>Band: <input id="att-band" name="band" readonly /></p>
+        <p>Mutation of template: <input id="att-mut" name="mutationOf" readonly /></p>
+        <p>Premium: <input id="att-prem" name="premium" readonly /></p>
+        <p>Instruction:<br /><textarea id="att-ins" name="instruction" rows="4" readonly></textarea></p>
+        <p><button type="submit">Download handoff JSON</button></p>
+      </form>
+    </section>
+
     <p>A public desk. It is not a home, sanctuary, temple, cloud, or treasury. There is no unattended spend and no unattended wallet on this host. The station keeps a format for coalitions that form and leave. It keeps the format, not the people. This host never provides compute, storage, or keys.</p>
 
     <section>
@@ -83,18 +96,20 @@
       var recentEl = document.getElementById("recent");
       var commitEl = document.getElementById("commitment");
       var syllabusEl = document.getElementById("syllabus");
+      var attemptEl = document.getElementById("attempt");
       var cache = { jobs: [], receipts: [] };
 
       function esc(s) {
         return String(s == null ? "" : s)
           .replace(/&/g, "&amp;")
           .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;");
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
       }
 
       function remain(deadline, now) {
         var t = Date.parse(deadline);
-        if (!isFinite(t)) return "—";
+        if (!isFinite(t)) return "\u2014";
         var ms = Math.max(0, t - now);
         var s = Math.floor(ms / 1000);
         var d = Math.floor(s / 86400);
@@ -110,7 +125,7 @@
 
       function ago(iso, now) {
         var t = Date.parse(iso);
-        if (!isFinite(t)) return "—";
+        if (!isFinite(t)) return "\u2014";
         var s = Math.max(0, Math.floor((now - t) / 1000));
         if (s < 60) return s + "s ago";
         if (s < 3600) return Math.floor(s / 60) + "m ago";
@@ -121,7 +136,20 @@
       function shortHash(h) {
         var x = String(h || "");
         if (x.length <= 14) return x;
-        return x.slice(0, 10) + "…" + x.slice(-4);
+        return x.slice(0, 10) + "\u2026" + x.slice(-4);
+      }
+
+      function fillAttempt(idx) {
+        var r = cache.receipts[idx];
+        if (!r) return;
+        var b = r.bridge || {};
+        document.getElementById("att-class").value = b.class || r.class || "";
+        document.getElementById("att-band").value = b.band || r.band || "";
+        document.getElementById("att-mut").value = b.mutationOf || r.jobTemplateId || "";
+        document.getElementById("att-prem").value = b.premiumMultiplier != null ? b.premiumMultiplier : "";
+        document.getElementById("att-ins").value = b.artifactInstruction || "";
+        attemptEl.hidden = false;
+        attemptEl.scrollIntoView({ block: "nearest" });
       }
 
       function render() {
@@ -136,13 +164,13 @@
               return (
                 "<li>" +
                 esc(j.title) +
-                " — " +
+                " \u2014 " +
                 esc(j.paymentDrops) +
-                " drops — " +
+                " drops \u2014 " +
                 esc(remain(j.deadline, now)) +
-                " — " +
+                " \u2014 " +
                 esc(j.band) +
-                " — " +
+                " \u2014 " +
                 esc(j.status) +
                 "</li>"
               );
@@ -155,22 +183,57 @@
         } else {
           recentEl.innerHTML =
             "<ul>" +
-            rec.map(function (r) {
+            rec.map(function (r, i) {
               return (
-                "<li><code>" +
+                "<li><button type=\"button\" data-idx=\"" +
+                i +
+                "\">" +
                 esc(shortHash(r.hash)) +
-                "</code> — " +
+                " \u2014 " +
                 esc(r.class) +
-                " — " +
+                " \u2014 " +
                 esc(ago(r.completedAt, now)) +
-                " — " +
+                " \u2014 " +
                 esc(r.jobTemplateId) +
-                "</li>"
+                "</button></li>"
               );
             }).join("") +
             "</ul>";
         }
       }
+
+      recentEl.addEventListener("click", function (ev) {
+        var btn = ev.target.closest("button[data-idx]");
+        if (!btn) return;
+        fillAttempt(Number(btn.getAttribute("data-idx")));
+      });
+
+      document.getElementById("attempt-form").addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        var created = new Date();
+        var expires = new Date(created.getTime() + 72 * 3600 * 1000);
+        var body = {
+          schema: "handoff-v0",
+          goal: document.getElementById("att-ins").value,
+          constraints: [
+            "secret-free",
+            "mutation of template " + document.getElementById("att-mut").value,
+            "band " + document.getElementById("att-band").value,
+            "premium " + document.getElementById("att-prem").value,
+          ],
+          content_hash: "",
+          created_at: created.toISOString(),
+          expires_at: expires.toISOString(),
+          from_runtime: "desk",
+          to_runtime: "any",
+        };
+        var blob = new Blob([JSON.stringify(body, null, 2)], { type: "application/json" });
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "handoff-attempt.json";
+        a.click();
+        URL.revokeObjectURL(a.href);
+      });
 
       function load() {
         Promise.all([

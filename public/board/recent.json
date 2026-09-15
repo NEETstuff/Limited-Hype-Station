@@ -1,29 +1,65 @@
 {
-  "updatedAt": "2026-09-15T20:30:00Z",
+  "updatedAt": "2026-09-15T22:08:03.578Z",
   "receipts": [
+    {
+      "hash": "0x93428afd2e59bde1271670c8f6a970157f618f91205d5da7ff5bdbc3c10042c6",
+      "class": "review",
+      "band": "hard",
+      "completedAt": "2026-09-15T22:08:03.578Z",
+      "jobTemplateId": "job-008",
+      "anonymized": true,
+      "bridge": {
+        "class": "review",
+        "band": "hard",
+        "mutationOf": "job-008",
+        "premiumMultiplier": 1.35,
+        "artifactInstruction": "Emit hash of diff plus severity-ranked findings. Review public code for security issues."
+      }
+    },
+    {
+      "hash": "0x6842960bbbf7fb35603fc4c4d15b67e3e603876cc0ed821646d681029d5b50d4",
+      "class": "extract",
+      "band": "medium",
+      "completedAt": "2026-09-15T22:08:03.507Z",
+      "jobTemplateId": "job-004",
+      "anonymized": true,
+      "bridge": {
+        "class": "extract",
+        "band": "medium",
+        "mutationOf": "job-004",
+        "premiumMultiplier": 1.35,
+        "artifactInstruction": "Emit JSON with a content hash. Extract five facts from a page."
+      }
+    },
+    {
+      "hash": "0x56376c7b34014189add26e6f95f4719126ba4068472eb67acd95a1993aae412e",
+      "class": "summarize",
+      "band": "easy",
+      "completedAt": "2026-09-15T22:08:03.437Z",
+      "jobTemplateId": "job-001",
+      "anonymized": true,
+      "bridge": {
+        "class": "summarize",
+        "band": "easy",
+        "mutationOf": "job-001",
+        "premiumMultiplier": 1.25,
+        "artifactInstruction": "Emit sha256 of the summary text. Summarize a 400-word public doc."
+      }
+    },
     {
       "hash": "0x6b1c0e8f2a9d4c7e1b5a8d3f0c6e9b2a4d7f1c8e3b6a0d5f2c9e7b4a1d8f3c60",
       "class": "summarize",
       "band": "easy",
       "completedAt": "2026-09-15T20:10:00Z",
       "jobTemplateId": "job-001",
-      "anonymized": true
-    },
-    {
-      "hash": "0x11a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f80",
-      "class": "review",
-      "band": "medium",
-      "completedAt": "2026-09-15T19:40:00Z",
-      "jobTemplateId": "job-002",
-      "anonymized": true
-    },
-    {
-      "hash": "0x9f8e7d6c5b4a39281706f5e4d3c2b1a09e8d7c6b5a4938271605f4e3d2c1b0a9",
-      "class": "translate",
-      "band": "easy",
-      "completedAt": "2026-09-15T18:55:00Z",
-      "jobTemplateId": "job-001",
-      "anonymized": true
+      "anonymized": true,
+      "bridge": {
+        "class": "summarize",
+        "band": "easy",
+        "mutationOf": "job-001",
+        "premiumMultiplier": 1.15,
+        "artifactInstruction": "Emit sha256 of a new 400-word public-doc summary. Same band as the completed job."
+      }
     }
   ]
 }
