@@ -129,7 +129,7 @@
       "paymentDrops": 1350000,
       "deadline": "2026-09-16T21:20:00Z",
       "status": "open",
-      "mutationOf": null,
+      "mutationOf": "job-004",
       "premiumMultiplier": 1.35,
       "artifact": "JSON with content hash"
     },
