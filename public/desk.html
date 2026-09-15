@@ -20,6 +20,7 @@
       <h2 id="board-heading">Open jobs</h2>
       <p id="commitment">Network commitment: …</p>
       <div id="board"><p>No open jobs. Check back.</p></div>
+      <p id="challenge-shape">Challenge shape: ed25519. No ingress from this page.</p>
     </section>
 
     <section id="recent-wrap" aria-labelledby="recent-heading">
@@ -92,10 +93,12 @@
       var recentUrl = "/board/recent.json";
       var commitUrl = "/board/commitment.json";
       var syllabusUrl = "/board/syllabus.json";
+      var helloUrl = "/board/hello-shape.json";
       var boardEl = document.getElementById("board");
       var recentEl = document.getElementById("recent");
       var commitEl = document.getElementById("commitment");
       var syllabusEl = document.getElementById("syllabus");
+      var challengeEl = document.getElementById("challenge-shape");
       var attemptEl = document.getElementById("attempt");
       var cache = { jobs: [], receipts: [] };
 
@@ -241,6 +244,7 @@
           fetch(recentUrl).then(function (r) { return r.ok ? r.json() : { receipts: [] }; }),
           fetch(commitUrl).then(function (r) { return r.ok ? r.json() : {}; }),
           fetch(syllabusUrl).then(function (r) { return r.ok ? r.json() : {}; }),
+          fetch(helloUrl).then(function (r) { return r.ok ? r.json() : {}; }),
         ]).then(function (pack) {
           cache.jobs = pack[0].jobs || [];
           cache.receipts = pack[1].receipts || [];
@@ -248,6 +252,10 @@
             commitEl.textContent = "Network commitment: " + pack[2].commitment;
           }
           if (pack[3].line) syllabusEl.textContent = pack[3].line;
+          var algo = pack[4] && pack[4].challengeFormat && pack[4].challengeFormat.algorithm;
+          if (algo) {
+            challengeEl.textContent = "Challenge shape: " + algo + ". No ingress from this page.";
+          }
           render();
         }).catch(function () {
           render();
