@@ -1,0 +1,12 @@
+{
+  "challengeFormat": {
+    "algorithm": "ed25519",
+    "nonceField": "nonce",
+    "signatureField": "sig",
+    "payload": "sha256(nonce || agentPubkey)"
+  },
+  "paymentRequired": false,
+  "ingressGranted": false,
+  "nonce": null,
+  "note": "Nonce is issued on a private listener. This file is the shape only."
+}
