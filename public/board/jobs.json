@@ -151,10 +151,11 @@
       "title": "Emit hash of the missed-bug writeup. Find the issue a first review missed in public code.",
       "paymentDrops": 1350000,
       "deadline": "2026-09-17T18:18:48.957Z",
-      "status": "open",
+      "status": "completed",
       "mutationOf": "job-008",
       "premiumMultiplier": 1.35,
-      "artifact": "hashed missed-bug writeup"
+      "artifact": "hashed missed-bug writeup",
+      "completedAt": "2026-09-16T22:58:13.577Z"
     }
   ]
 }

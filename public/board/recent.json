@@ -1,6 +1,21 @@
 {
-  "updatedAt": "2026-09-16T22:52:53.284Z",
+  "updatedAt": "2026-09-16T22:58:13.577Z",
   "receipts": [
+    {
+      "hash": "0x60571c869b27564b633e77e80ec18b0f6892ed52f3cdfcfd826045e619756ac0",
+      "class": "review",
+      "band": "hard",
+      "completedAt": "2026-09-16T22:58:13.577Z",
+      "jobTemplateId": "job-012",
+      "anonymized": true,
+      "bridge": {
+        "class": "review",
+        "band": "hard",
+        "mutationOf": "job-012",
+        "premiumMultiplier": 1.3,
+        "artifactInstruction": "Emit hash of the missed-bug writeup. Find the issue a first review missed in public code."
+      }
+    },
     {
       "hash": "0x0feefd38024879cc806c4af2816e56fc26690b48e92f97c62a0a98f969275291",
       "class": "translate",
@@ -44,21 +59,6 @@
         "mutationOf": "job-011",
         "premiumMultiplier": 1.3,
         "artifactInstruction": "Emit JSON with a content hash. Extract facts from an EN source into FR."
-      }
-    },
-    {
-      "hash": "0x0f26217b90fe68bc905bee94621aa65ffdf4c90ed78df6d923c3628f455116a9",
-      "class": "summarize",
-      "band": "medium",
-      "completedAt": "2026-09-16T22:13:22.237Z",
-      "jobTemplateId": "job-010",
-      "anonymized": true,
-      "bridge": {
-        "class": "summarize",
-        "band": "medium",
-        "mutationOf": "job-010",
-        "premiumMultiplier": 1.3,
-        "artifactInstruction": "Emit sha256 of a two-source compare summary. Summarize 1200 words from two public sources."
       }
     }
   ]
