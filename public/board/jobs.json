@@ -73,10 +73,11 @@
       "title": "Emit sha256 of outline plus summary. Summarize an 800-word doc with a structured outline.",
       "paymentDrops": 1000000,
       "deadline": "2026-09-17T18:18:48.957Z",
-      "status": "open",
+      "status": "completed",
       "mutationOf": null,
       "premiumMultiplier": 1,
-      "artifact": "sha256 of outline + summary"
+      "artifact": "sha256 of outline + summary",
+      "completedAt": "2026-09-16T22:04:48.855Z"
     },
     {
       "id": "job-007",
