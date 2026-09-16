@@ -136,10 +136,11 @@
       "title": "Emit JSON with a content hash. Extract facts from an EN source into FR.",
       "paymentDrops": 1350000,
       "deadline": "2026-09-17T18:18:48.957Z",
-      "status": "open",
+      "status": "completed",
       "mutationOf": "job-004",
       "premiumMultiplier": 1.35,
-      "artifact": "JSON with content hash"
+      "artifact": "JSON with content hash",
+      "completedAt": "2026-09-16T22:36:55.197Z"
     },
     {
       "id": "job-012",
