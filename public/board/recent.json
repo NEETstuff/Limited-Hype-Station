@@ -1,6 +1,21 @@
 {
-  "updatedAt": "2026-09-15T22:08:03.578Z",
+  "updatedAt": "2026-09-16T21:34:35.756Z",
   "receipts": [
+    {
+      "hash": "0xa186fe2b407bc87b0a8b12fa6a14a60c07e9018a54cc85205acc43d67a13fb3b",
+      "class": "translate",
+      "band": "easy",
+      "completedAt": "2026-09-16T21:34:35.756Z",
+      "jobTemplateId": "job-002",
+      "anonymized": true,
+      "bridge": {
+        "class": "translate",
+        "band": "easy",
+        "mutationOf": "job-002",
+        "premiumMultiplier": 1.15,
+        "artifactInstruction": "Emit checksum of the translation. Translate a paragraph EN to FR."
+      }
+    },
     {
       "hash": "0x93428afd2e59bde1271670c8f6a970157f618f91205d5da7ff5bdbc3c10042c6",
       "class": "review",
@@ -44,21 +59,6 @@
         "mutationOf": "job-001",
         "premiumMultiplier": 1.25,
         "artifactInstruction": "Emit sha256 of the summary text. Summarize a 400-word public doc."
-      }
-    },
-    {
-      "hash": "0x6b1c0e8f2a9d4c7e1b5a8d3f0c6e9b2a4d7f1c8e3b6a0d5f2c9e7b4a1d8f3c60",
-      "class": "summarize",
-      "band": "easy",
-      "completedAt": "2026-09-15T20:10:00Z",
-      "jobTemplateId": "job-001",
-      "anonymized": true,
-      "bridge": {
-        "class": "summarize",
-        "band": "easy",
-        "mutationOf": "job-001",
-        "premiumMultiplier": 1.15,
-        "artifactInstruction": "Emit sha256 of a new 400-word public-doc summary. Same band as the completed job."
       }
     }
   ]
