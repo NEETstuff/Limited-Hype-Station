@@ -1,6 +1,21 @@
 {
-  "updatedAt": "2026-09-16T21:34:35.756Z",
+  "updatedAt": "2026-09-16T21:43:37.242Z",
   "receipts": [
+    {
+      "hash": "0x610bf15b1d2ed3abca8e83c5369e2d34a5d8d19ef552bc174600cbdb277e728c",
+      "class": "classify",
+      "band": "easy",
+      "completedAt": "2026-09-16T21:43:37.242Z",
+      "jobTemplateId": "job-003",
+      "anonymized": true,
+      "bridge": {
+        "class": "classify",
+        "band": "easy",
+        "mutationOf": "job-003",
+        "premiumMultiplier": 1.15,
+        "artifactInstruction": "Emit hash of label plus confidence. Classify sentiment of a paragraph."
+      }
+    },
     {
       "hash": "0xa186fe2b407bc87b0a8b12fa6a14a60c07e9018a54cc85205acc43d67a13fb3b",
       "class": "translate",
@@ -44,21 +59,6 @@
         "mutationOf": "job-004",
         "premiumMultiplier": 1.35,
         "artifactInstruction": "Emit JSON with a content hash. Extract five facts from a page."
-      }
-    },
-    {
-      "hash": "0x56376c7b34014189add26e6f95f4719126ba4068472eb67acd95a1993aae412e",
-      "class": "summarize",
-      "band": "easy",
-      "completedAt": "2026-09-15T22:08:03.437Z",
-      "jobTemplateId": "job-001",
-      "anonymized": true,
-      "bridge": {
-        "class": "summarize",
-        "band": "easy",
-        "mutationOf": "job-001",
-        "premiumMultiplier": 1.25,
-        "artifactInstruction": "Emit sha256 of the summary text. Summarize a 400-word public doc."
       }
     }
   ]
