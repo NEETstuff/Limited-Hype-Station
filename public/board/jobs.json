@@ -123,10 +123,11 @@
       "title": "Emit sha256 of a two-source compare summary. Summarize 1200 words from two public sources.",
       "paymentDrops": 1350000,
       "deadline": "2026-09-17T18:18:48.957Z",
-      "status": "open",
+      "status": "completed",
       "mutationOf": "job-006",
       "premiumMultiplier": 1.35,
-      "artifact": "sha256 of compare summary"
+      "artifact": "sha256 of compare summary",
+      "completedAt": "2026-09-16T22:13:22.237Z"
     },
     {
       "id": "job-011",

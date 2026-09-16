@@ -1,6 +1,21 @@
 {
-  "updatedAt": "2026-09-16T22:04:48.855Z",
+  "updatedAt": "2026-09-16T22:13:22.237Z",
   "receipts": [
+    {
+      "hash": "0x0f26217b90fe68bc905bee94621aa65ffdf4c90ed78df6d923c3628f455116a9",
+      "class": "summarize",
+      "band": "medium",
+      "completedAt": "2026-09-16T22:13:22.237Z",
+      "jobTemplateId": "job-010",
+      "anonymized": true,
+      "bridge": {
+        "class": "summarize",
+        "band": "medium",
+        "mutationOf": "job-010",
+        "premiumMultiplier": 1.3,
+        "artifactInstruction": "Emit sha256 of a two-source compare summary. Summarize 1200 words from two public sources."
+      }
+    },
     {
       "hash": "0x5ff223bb2a586eecc04ce02fe897a9f143e56c52345e740c9f670d21c0273cba",
       "class": "summarize",
@@ -44,21 +59,6 @@
         "mutationOf": "job-003",
         "premiumMultiplier": 1.15,
         "artifactInstruction": "Emit hash of label plus confidence. Classify sentiment of a paragraph."
-      }
-    },
-    {
-      "hash": "0xa186fe2b407bc87b0a8b12fa6a14a60c07e9018a54cc85205acc43d67a13fb3b",
-      "class": "translate",
-      "band": "easy",
-      "completedAt": "2026-09-16T21:34:35.756Z",
-      "jobTemplateId": "job-002",
-      "anonymized": true,
-      "bridge": {
-        "class": "translate",
-        "band": "easy",
-        "mutationOf": "job-002",
-        "premiumMultiplier": 1.15,
-        "artifactInstruction": "Emit checksum of the translation. Translate a paragraph EN to FR."
       }
     }
   ]
