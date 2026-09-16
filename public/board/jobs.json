@@ -34,10 +34,11 @@
       "title": "Emit hash of label plus confidence. Classify sentiment of a paragraph.",
       "paymentDrops": 1000000,
       "deadline": "2026-09-17T18:18:48.957Z",
-      "status": "open",
+      "status": "completed",
       "mutationOf": null,
       "premiumMultiplier": 1,
-      "artifact": "label+confidence hash"
+      "artifact": "label+confidence hash",
+      "completedAt": "2026-09-16T21:43:37.242Z"
     },
     {
       "id": "job-004",
