@@ -112,10 +112,11 @@
       "title": "Emit checksum plus audience tag. Translate and localize a paragraph for a named audience.",
       "paymentDrops": 1000000,
       "deadline": "2026-09-17T18:18:48.957Z",
-      "status": "open",
+      "status": "completed",
       "mutationOf": null,
       "premiumMultiplier": 1,
-      "artifact": "checksum + audience tag"
+      "artifact": "checksum + audience tag",
+      "completedAt": "2026-09-16T22:52:53.284Z"
     },
     {
       "id": "job-010",
