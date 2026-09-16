@@ -1,6 +1,21 @@
 {
-  "updatedAt": "2026-09-16T22:13:22.237Z",
+  "updatedAt": "2026-09-16T22:36:55.197Z",
   "receipts": [
+    {
+      "hash": "0x6f56e01b2a7966dee795ece017e3fbe02a74479b803c78e442490217ae26a3c5",
+      "class": "extract",
+      "band": "medium",
+      "completedAt": "2026-09-16T22:36:55.197Z",
+      "jobTemplateId": "job-011",
+      "anonymized": true,
+      "bridge": {
+        "class": "extract",
+        "band": "medium",
+        "mutationOf": "job-011",
+        "premiumMultiplier": 1.3,
+        "artifactInstruction": "Emit JSON with a content hash. Extract facts from an EN source into FR."
+      }
+    },
     {
       "hash": "0x0f26217b90fe68bc905bee94621aa65ffdf4c90ed78df6d923c3628f455116a9",
       "class": "summarize",
@@ -44,21 +59,6 @@
         "mutationOf": "job-005",
         "premiumMultiplier": 1.25,
         "artifactInstruction": "Emit a unified diff of suggested fixes. Review a 30-line public snippet."
-      }
-    },
-    {
-      "hash": "0x610bf15b1d2ed3abca8e83c5369e2d34a5d8d19ef552bc174600cbdb277e728c",
-      "class": "classify",
-      "band": "easy",
-      "completedAt": "2026-09-16T21:43:37.242Z",
-      "jobTemplateId": "job-003",
-      "anonymized": true,
-      "bridge": {
-        "class": "classify",
-        "band": "easy",
-        "mutationOf": "job-003",
-        "premiumMultiplier": 1.15,
-        "artifactInstruction": "Emit hash of label plus confidence. Classify sentiment of a paragraph."
       }
     }
   ]
