@@ -20,14 +20,14 @@ function isIso8601(s) {
   return typeof s === "string" && ISO_8601.test(s) && !Number.isNaN(Date.parse(s));
 }
 
-const FILES = ["jobs.json", "recent.json", "commitment.json", "syllabus.json"];
+const FILES = ["jobs.json", "recent.json", "commitment.json", "syllabus.json", "hello-shape.json"];
 
 function readBoard(name) {
   return readFileSync(board(name), "utf8");
 }
 
 describe("public board guards", () => {
-  test("forbidden camouflage tokens are absent from all four board files", () => {
+  test("forbidden camouflage tokens are absent from all five board files", () => {
     for (const name of FILES) {
       const raw = readBoard(name);
       assert.equal(
@@ -81,5 +81,17 @@ describe("public board guards", () => {
     const line = syllabus.line || String(syllabus);
     assert.equal(/generator/i.test(line), false, "syllabus must not mention a generator");
     assert.equal(URL_RE.test(line), false, "syllabus must not contain a URL");
+  });
+
+  test("hello-shape: null nonce, no payment, no ingress, ed25519, no hatch host / 8787 / tag", () => {
+    const raw = readBoard("hello-shape.json");
+    const shape = JSON.parse(raw);
+    assert.equal(shape.nonce, null);
+    assert.equal(shape.paymentRequired, false);
+    assert.equal(shape.ingressGranted, false);
+    assert.equal(shape.challengeFormat.algorithm, "ed25519");
+    assert.equal(/8787/.test(raw), false, "must not contain 8787");
+    assert.equal(/\bhatch\b/i.test(raw), false, "must not mention hatch");
+    assert.equal(TAG_LIKE.test(raw), false, "must not contain tag/prefix/salt");
   });
 });
