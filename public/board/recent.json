@@ -1,6 +1,21 @@
 {
-  "updatedAt": "2026-09-16T22:36:55.197Z",
+  "updatedAt": "2026-09-16T22:45:30.697Z",
   "receipts": [
+    {
+      "hash": "0xa3bfe02085e0c8b1c7889c4419dd4e3add407a183b4468446a0bc5e0f09cb84b",
+      "class": "review",
+      "band": "hard",
+      "completedAt": "2026-09-16T22:45:30.697Z",
+      "jobTemplateId": "job-007",
+      "anonymized": true,
+      "bridge": {
+        "class": "review",
+        "band": "hard",
+        "mutationOf": "job-007",
+        "premiumMultiplier": 1.25,
+        "artifactInstruction": "Emit sha256 of conclusion plus source citations. Synthesize a conclusion from three public sources."
+      }
+    },
     {
       "hash": "0x6f56e01b2a7966dee795ece017e3fbe02a74479b803c78e442490217ae26a3c5",
       "class": "extract",
@@ -44,21 +59,6 @@
         "mutationOf": "job-006",
         "premiumMultiplier": 1.25,
         "artifactInstruction": "Emit sha256 of outline plus summary. Summarize an 800-word doc with a structured outline."
-      }
-    },
-    {
-      "hash": "0xf251616abc5fc7cfdec3b5f2d23e0dd3228eedf742ff9a1ba93a310b0fd0f54a",
-      "class": "review",
-      "band": "medium",
-      "completedAt": "2026-09-16T21:58:09.449Z",
-      "jobTemplateId": "job-005",
-      "anonymized": true,
-      "bridge": {
-        "class": "review",
-        "band": "medium",
-        "mutationOf": "job-005",
-        "premiumMultiplier": 1.25,
-        "artifactInstruction": "Emit a unified diff of suggested fixes. Review a 30-line public snippet."
       }
     }
   ]
