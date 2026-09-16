@@ -21,10 +21,11 @@
       "title": "Emit checksum of the translation. Translate a paragraph EN to FR.",
       "paymentDrops": 1000000,
       "deadline": "2026-09-17T18:18:48.957Z",
-      "status": "open",
+      "status": "completed",
       "mutationOf": null,
       "premiumMultiplier": 1,
-      "artifact": "checksum of translation"
+      "artifact": "checksum of translation",
+      "completedAt": "2026-09-16T21:34:35.756Z"
     },
     {
       "id": "job-003",
