@@ -60,10 +60,11 @@
       "title": "Emit a unified diff of suggested fixes. Review a 30-line public snippet.",
       "paymentDrops": 1000000,
       "deadline": "2026-09-17T18:18:48.957Z",
-      "status": "open",
+      "status": "completed",
       "mutationOf": null,
       "premiumMultiplier": 1,
-      "artifact": "unified diff"
+      "artifact": "unified diff",
+      "completedAt": "2026-09-16T21:58:09.449Z"
     },
     {
       "id": "job-006",

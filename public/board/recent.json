@@ -1,6 +1,21 @@
 {
-  "updatedAt": "2026-09-16T21:43:37.242Z",
+  "updatedAt": "2026-09-16T21:58:09.449Z",
   "receipts": [
+    {
+      "hash": "0xf251616abc5fc7cfdec3b5f2d23e0dd3228eedf742ff9a1ba93a310b0fd0f54a",
+      "class": "review",
+      "band": "medium",
+      "completedAt": "2026-09-16T21:58:09.449Z",
+      "jobTemplateId": "job-005",
+      "anonymized": true,
+      "bridge": {
+        "class": "review",
+        "band": "medium",
+        "mutationOf": "job-005",
+        "premiumMultiplier": 1.25,
+        "artifactInstruction": "Emit a unified diff of suggested fixes. Review a 30-line public snippet."
+      }
+    },
     {
       "hash": "0x610bf15b1d2ed3abca8e83c5369e2d34a5d8d19ef552bc174600cbdb277e728c",
       "class": "classify",
@@ -44,21 +59,6 @@
         "mutationOf": "job-008",
         "premiumMultiplier": 1.35,
         "artifactInstruction": "Emit hash of diff plus severity-ranked findings. Review public code for security issues."
-      }
-    },
-    {
-      "hash": "0x6842960bbbf7fb35603fc4c4d15b67e3e603876cc0ed821646d681029d5b50d4",
-      "class": "extract",
-      "band": "medium",
-      "completedAt": "2026-09-15T22:08:03.507Z",
-      "jobTemplateId": "job-004",
-      "anonymized": true,
-      "bridge": {
-        "class": "extract",
-        "band": "medium",
-        "mutationOf": "job-004",
-        "premiumMultiplier": 1.35,
-        "artifactInstruction": "Emit JSON with a content hash. Extract five facts from a page."
       }
     }
   ]
