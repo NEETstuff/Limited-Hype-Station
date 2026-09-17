@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-16T18:18:48.957Z",
+  "updatedAt": "2026-09-17T19:08:40.596Z",
   "jobs": [
     {
       "id": "job-001",
@@ -7,12 +7,11 @@
       "band": "easy",
       "title": "Emit sha256 of the summary text. Summarize a 400-word public doc.",
       "paymentDrops": 1000000,
-      "deadline": "2026-09-16T21:40:59.657Z",
-      "status": "completed",
+      "deadline": "2026-09-18T19:08:40.596Z",
+      "status": "open",
       "mutationOf": null,
       "premiumMultiplier": 1,
-      "artifact": "sha256 of summary text",
-      "completedAt": "2026-09-15T22:08:03.437Z"
+      "artifact": "sha256 of summary text"
     },
     {
       "id": "job-002",
@@ -46,12 +45,11 @@
       "band": "medium",
       "title": "Emit JSON with a content hash. Extract five facts from a page.",
       "paymentDrops": 1000000,
-      "deadline": "2026-09-16T21:40:59.657Z",
-      "status": "completed",
+      "deadline": "2026-09-18T19:08:40.596Z",
+      "status": "open",
       "mutationOf": null,
       "premiumMultiplier": 1,
-      "artifact": "JSON with content hash",
-      "completedAt": "2026-09-15T22:08:03.507Z"
+      "artifact": "JSON with content hash"
     },
     {
       "id": "job-005",
@@ -85,12 +83,11 @@
       "band": "hard",
       "title": "Emit sha256 of conclusion plus source citations. Synthesize a conclusion from three public sources.",
       "paymentDrops": 1000000,
-      "deadline": "2026-09-17T18:18:48.957Z",
-      "status": "completed",
+      "deadline": "2026-09-18T19:08:40.596Z",
+      "status": "open",
       "mutationOf": null,
       "premiumMultiplier": 1,
-      "artifact": "sha256 of conclusion + citations",
-      "completedAt": "2026-09-16T22:45:30.697Z"
+      "artifact": "sha256 of conclusion + citations"
     },
     {
       "id": "job-008",
